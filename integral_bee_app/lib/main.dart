@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:integral_bee_app/add_players.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,33 +25,30 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final currentWindow = null;
 
-  void addPlayers() {
-
-  }
-
-  void begin() {
-
-  }
-
-  void addIntegrals() {
-    
+  void onPageSelect(page) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Scaffold(body: Center(child: page))));
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Column(
           children: [
-            Text("Integral Bee 2024"),
-            Text("Beths Grammar School"),
-            Column(children: [
-              TextButton(onPressed: onPressed, child: Text("Add players")),
-              TextButton(onPressed: onPressed, child: Text("Begin")),
-              TextButton(onPressed: onPressed, child: Text("Add integrals"))
+            const Text("Integral Bee 2024"),
+            const Text("Beths Grammar School"),
+            Row(children: [
+              TextButton(
+                  onPressed: () {
+                    onPageSelect(const AddPlayer());
+                  },
+                  child: const Text("Add players")),
+              //TextButton(onPressed: onPressed, child: Text("Begin")),
             ]),
           ],
         ),

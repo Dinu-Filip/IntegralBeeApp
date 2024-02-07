@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:integral_bee_app/add_players.dart';
-import 'package:integral_bee_app/match.dart';
+import 'package:integral_bee_app/round.dart';
 
 void main() {
   runApp(const MyApp());
@@ -51,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: const Text("Add players")),
               TextButton(
                   onPressed: () {
-                    onPageSelect(const Match());
+                    onPageSelect(const Round());
                   },
                   child: const Text("Begin")),
             ]),

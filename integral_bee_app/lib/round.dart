@@ -4,6 +4,7 @@ import 'package:integral_bee_app/round_preview.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'dart:io';
 import 'dart:math';
+import 'package:integral_bee_app/match.dart';
 
 class Player {
   final String name;
@@ -19,6 +20,21 @@ class Player {
       required this.studiesFM});
 }
 
+class Integral {
+  final String integral;
+  final String answer;
+  final String difficulty;
+  bool played;
+  final String years;
+
+  Integral(
+      {required this.integral,
+      required this.answer,
+      required this.difficulty,
+      required this.played,
+      required this.years});
+}
+
 class Round extends StatefulWidget {
   const Round({super.key});
 
@@ -30,7 +46,14 @@ class RoundState extends State<Round> {
   final List<List<dynamic>> matches = [[], [], []];
   final List<List<Player>> currentFinished = [];
   final List<String> rounds = ["Quarterfinal", "Semifinal", "Final"];
+  final List<Integral> integrals = [];
+  final Map<String, List<Integral>> remainingIntegrals = {
+    "Easy": [],
+    "Medium": [],
+    "Hard": []
+  };
   static const String playerFile = "player.txt";
+  static const String integralFile = "integrals.txt";
   static const List<String> schools = ["Beths Grammar School"];
   static const Map<String, String> schoolCode = {
     "Beths Grammar School": "Beths"
@@ -39,7 +62,7 @@ class RoundState extends State<Round> {
   final Map<String, int> schoolPoints = {};
   List<Player> participants = [];
   int currentRound = 0;
-  dynamic currentStage = Text("");
+  late dynamic currentStage;
 
   Future<int> initialiseParticipants() async {
     String participantData = await File(playerFile).readAsString();
@@ -58,6 +81,33 @@ class RoundState extends State<Round> {
                   studiesFM: playerData[3] == "true" ? true : false);
             }())
         .toList();
+    return 1;
+  }
+
+  Future<int> loadIntegrals() async {
+    String integralData = await File(integralFile).readAsString();
+    List<String> splitData = integralData.split("\n");
+    splitData.removeLast();
+    //
+    // Creates array of Integral objects as the definitive collection of integrals
+    // to use in the tournament
+    //
+    for (String d in splitData) {
+      List<String> intData = d.split(",");
+      integrals.add(Integral(
+          integral: intData[0],
+          answer: intData[1],
+          difficulty: intData[2],
+          played: false,
+          years: intData[3]));
+      remainingIntegrals[integrals.last.difficulty]!.add(integrals.last);
+    }
+    //
+    // Ensures that selection of integrals is random
+    //
+    for (List<Integral> integrals in remainingIntegrals.values) {
+      integrals.shuffle();
+    }
     return 1;
   }
 
@@ -115,9 +165,6 @@ class RoundState extends State<Round> {
       }
     }
     matches[0] = initialPairings;
-    setState(() {
-      initialised = true;
-    });
   }
 
   int numberOfIntegrals(String round) {
@@ -136,8 +183,35 @@ class RoundState extends State<Round> {
     } else if (round == "Final") {
       return 5;
     } else {
-      return 2.5;
+      return 0.1;
     }
+  }
+
+  String integralDifficulty() {
+    String roundName = rounds[currentRound];
+    if (roundName == "Quarterfinal") {
+      return "Medium";
+    } else if (roundName == "Semifinal") {
+      return "Hard";
+    } else if (roundName == "Final") {
+      return "Hard";
+    } else {
+      return "Easy";
+    }
+  }
+
+  void startMatch(List<List<Player>> pairings) {
+    String currentDifficulty = integralDifficulty();
+    String round = rounds[currentRound];
+    setState(() {
+      currentStage = Match(
+        difficulty: currentDifficulty,
+        integrals: remainingIntegrals[currentDifficulty]!,
+        pairings: pairings,
+        round: round,
+        numIntegrals: numberOfIntegrals(round),
+      );
+    });
   }
 
   void startRound() {
@@ -147,26 +221,41 @@ class RoundState extends State<Round> {
         unfinishedMatches.add(match);
       }
     }
-    setState(() {
-      currentStage = MatchPreview(
-          round: rounds[currentRound], matchData: unfinishedMatches);
-    });
+    if (unfinishedMatches.isEmpty) {
+      print("finished round");
+    } else {
+      setState(() {
+        currentStage = MatchPreview(
+            round: rounds[currentRound],
+            matchData: unfinishedMatches,
+            startMatch: startMatch);
+      });
+    }
+  }
+
+  Future<int> initialise() async {
+    await initialiseParticipants();
+    setRounds();
+    initialiseMatches();
+    String roundName = rounds[currentRound];
+    currentStage = RoundPreview(
+        round: roundName,
+        numParticipants: matches[currentRound].length * 2,
+        numIntegrals: numberOfIntegrals(roundName),
+        integralTime: timePerIntegral(roundName),
+        roundData: matches[currentRound],
+        startRound: startRound);
+    await loadIntegrals();
+    return 1;
   }
 
   @override
   Widget build(BuildContext context) {
     if (!initialised) {
-      initialiseParticipants().then((r) {
-        setRounds();
-        initialiseMatches();
-        String roundName = rounds[currentRound];
-        currentStage = RoundPreview(
-            round: roundName,
-            numParticipants: matches[currentRound].length * 2,
-            numIntegrals: numberOfIntegrals(roundName),
-            integralTime: timePerIntegral(roundName),
-            roundData: matches[currentRound],
-            startRound: startRound);
+      initialise().then((r) {
+        setState(() {
+          initialised = true;
+        });
       });
       return LoadingAnimationWidget.stretchedDots(
           color: Colors.black, size: 50);

@@ -10,6 +10,6 @@ Marc Wamunuko,Beths Grammar School,Year 13,true
 Joseph,Beths Grammar School,Year 13,true
 Faiyad Zafor,Beths Grammar School,Year 13,true
 Temi,Beths Grammar School,Year 13,true
-Ethan,Beths Grammar School,Year 13,true
+Ethan Schoeb,Beths Grammar School,Year 13,true
 Kiefer Nye,Beths Grammar School,Year 13,true
 Jobayer Khan,Beths Grammar School,Year 13,true

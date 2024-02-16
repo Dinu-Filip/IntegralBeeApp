@@ -8,8 +8,13 @@ class MatchPreview extends StatefulWidget {
   // matchData stores all possible matches that can take place
   //
   final List<dynamic> matchData;
+  final Function startMatch;
 
-  const MatchPreview({super.key, required this.round, required this.matchData});
+  const MatchPreview(
+      {super.key,
+      required this.round,
+      required this.matchData,
+      required this.startMatch});
 
   @override
   State<MatchPreview> createState() => MatchPreviewState();
@@ -28,7 +33,7 @@ class MatchPreviewState extends State<MatchPreview> {
   //
   // Stores matches that will take place
   //
-  List<dynamic> displayedMatches = [];
+  List<List<Player>> displayedMatches = [];
   bool enableSwitching = true;
 
   void switchPlayers(List<Player> players, int idx) {
@@ -95,6 +100,9 @@ class MatchPreviewState extends State<MatchPreview> {
   }
 
   void removeDisplay() {
+    //
+    // Removes the last pairing from the match
+    //
     if (displayedMatches.length > 1) {
       numPairs -= 1;
       displayedMatches.removeLast();
@@ -116,10 +124,11 @@ class MatchPreviewState extends State<MatchPreview> {
 
     return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
       const SizedBox(height: 40),
-      const Padding(
-          padding: EdgeInsets.all(15),
-          child: Text("Round 1 match",
-              style: TextStyle(fontSize: 42, fontWeight: FontWeight.bold))),
+      Padding(
+          padding: const EdgeInsets.all(15),
+          child: Text("${widget.round} match",
+              style:
+                  const TextStyle(fontSize: 42, fontWeight: FontWeight.bold))),
       const SizedBox(height: 50),
       Expanded(
           child: Column(
@@ -153,7 +162,7 @@ class MatchPreviewState extends State<MatchPreview> {
           width: MediaQuery.of(context).size.width / 5,
           height: 70,
           child: OutlinedButton(
-              onPressed: () => {print("Ok")},
+              onPressed: () => {widget.startMatch(displayedMatches)},
               child:
                   const Text("Start match", style: TextStyle(fontSize: 30)))),
       const SizedBox(height: 100),

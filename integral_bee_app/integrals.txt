@@ -1,0 +1,29 @@
+\int \frac{3 \sin x}{2 \cos{x} + 2} \ dx,- \frac{3}{2} \ln{(2\cos{x} + 1)} + c,Easy,all
+\int \frac{\ln{x}}{x} \ dx,\frac{(\ln x)^2}{2} + c,Easy,all
+\int \frac{1}{1-e^x} \ dx,-\ln{|1 - e^x|} + x + c,Easy,all
+\int \frac{3^{\arctan{x}}}{x^2 - i^2} \ dx \ \ \ (i = \sqrt{-1}),\frac{1}{\ln{3}} 3^{\arctan{x}} + c,Medium,13FM
+\int 6 \csc^2{2x}\cot{2x} \ dx,-\frac{3}{2}\csc^2{2x} + c,Medium,all
+\int_{-4}^4 \sqrt{|x|^3} \ dx,\frac{128}{5},Medium,all
+\int \sin{(1 + x)}\cos{(1 - x)} \ dx,\frac{1}{4}(2x\sin{2} - \cos{2x}) + c,Hard,13FM
+\int \sec^3{x} \ dx,\frac{1}{2}(\sec{x} \tan{x} + \ln|\sec{x} + \tan{x}|) + c,Hard,13FM
+\int \frac{6 \arctan{(\ln{x})}}{5x} \ dx,\frac{6}{5} (\arctan{(\ln{x})}\ln{x} - \ln{|\sec{(\arctan{(\ln{x})})}|}) + c,Hard,13FM
+\int x^2 \ dx,\frac{1}{3} x^3 + c,Easy,12
+\int \sin x \ dx,-\cos x + c,Easy,12
+\int \frac{1}{x} \ dx,\ln |x| + c,Easy,12
+\int e^x \ dx,e^x + c,Easy,12
+\int \cos x \ dx,\sin x + c,Easy,12
+\int \frac{1}{1+x^2} \ dx,\tan^{-1} x + c,Easy,12
+\int \sec^2 x \ dx,\tan x + c,Easy,12
+\int \frac{1}{\sqrt{1-x^2}} \ dx,\sin^{-1} x + c,Easy,12
+\int \ln x \ dx,x \ln x - x + c,Easy,12
+\int \tan x \ dx,-\ln |\cos x| + c,Easy,12
+\int x e^x \ dx,(x-1) e^x + c,Easy,12
+\int \frac{1}{\cos^2 x} \ dx,-\tan x + c,Easy,12
+\int \frac{1}{\sqrt{x^2+1}} \ dx,\ln (x + \sqrt{x^2+1}) + c,Easy,all
+\int x \cos x \ dx,x \sin x + \cos x + c,Easy,all
+\int \frac{1}{x^2+1} \ dx,\frac{1}{2} \ln (x^2+1) + c,Easy,all
+\int x \sin x \ dx,-x \cos x + \sin x + c,Medium,all
+\int \frac{1}{x \ln x} \ dx,\ln |\ln x| + c,Medium,all
+\int \sqrt{x} \ dx,\frac{2}{3} x^{3/2} + c,Easy,all
+\int \frac{x}{\sqrt{x^2+1}} \ dx,\frac{1}{2} \sqrt{x^2+1} + c,Medium,all
+\int \frac{x}{1+x^2} \ dx,\frac{1}{2} \ln (1+x^2) + c,Medium,all

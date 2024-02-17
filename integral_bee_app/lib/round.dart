@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:integral_bee_app/match_preview.dart';
+import 'package:integral_bee_app/match_summary.dart';
 import 'package:integral_bee_app/round_preview.dart';
+import 'package:integral_bee_app/tournament_summary.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'dart:io';
 import 'dart:math';
@@ -44,7 +46,15 @@ class Round extends StatefulWidget {
 
 class RoundState extends State<Round> {
   final List<List<dynamic>> matches = [[], [], []];
+  //
+  // currentFinished stores matches that have finished as part of the current round
+  //
   final List<List<Player>> currentFinished = [];
+  //
+  // unfinishedMatches stores matches that have not yet taken place
+  //
+  final List<List<Player>> unfinishedMatches = [];
+
   final List<String> rounds = ["Quarterfinal", "Semifinal", "Final"];
   final List<Integral> integrals = [];
   final Map<String, List<Integral>> remainingIntegrals = {
@@ -63,6 +73,9 @@ class RoundState extends State<Round> {
   List<Player> participants = [];
   int currentRound = 0;
   late dynamic currentStage;
+  late Player winner;
+  late Player runnerUp;
+  late String winningSchool;
 
   Future<int> initialiseParticipants() async {
     String participantData = await File(playerFile).readAsString();
@@ -209,20 +222,39 @@ class RoundState extends State<Round> {
         integrals: remainingIntegrals[currentDifficulty]!,
         pairings: pairings,
         round: round,
+        endMatch: updateRounds,
         numIntegrals: numberOfIntegrals(round),
       );
     });
   }
 
-  void startRound() {
-    List<List<Player>> unfinishedMatches = [];
+  void doRound() {
     for (List<Player> match in matches[currentRound]) {
-      if (!currentFinished.contains(match)) {
+      if (!currentFinished.contains(match) &&
+          !unfinishedMatches.contains(match)) {
         unfinishedMatches.add(match);
       }
     }
     if (unfinishedMatches.isEmpty) {
-      print("finished round");
+      //
+      // Moves onto next round
+      //
+      currentRound += 1;
+      if (currentRound == rounds.length) {
+        endTournament();
+      } else {
+        currentFinished.clear();
+        setState(() {
+          String roundName = rounds[currentRound];
+          currentStage = RoundPreview(
+              round: roundName,
+              numParticipants: matches[currentRound].length * 2,
+              numIntegrals: numberOfIntegrals(roundName),
+              integralTime: timePerIntegral(roundName),
+              roundData: matches[currentRound],
+              startRound: doRound);
+        });
+      }
     } else {
       setState(() {
         currentStage = MatchPreview(
@@ -233,10 +265,35 @@ class RoundState extends State<Round> {
     }
   }
 
+  void endTournament() {
+    String winningSchool = "";
+    int winSchoolPoints = 0;
+    for (String school in schoolPoints.keys) {
+      if (schoolPoints[school]! > winSchoolPoints) {
+        winSchoolPoints = schoolPoints[school]!;
+        winningSchool = school;
+      }
+    }
+    setState(() {
+      currentStage = TournamentSummary(
+          winner: winner,
+          runnerUp: runnerUp,
+          winningSchool: winningSchool,
+          winSchoolPoints: winSchoolPoints);
+    });
+  }
+
+  void initialiseSchoolScores() {
+    for (String school in schools) {
+      schoolPoints[school] = 0;
+    }
+  }
+
   Future<int> initialise() async {
     await initialiseParticipants();
     setRounds();
     initialiseMatches();
+    initialiseSchoolScores();
     String roundName = rounds[currentRound];
     currentStage = RoundPreview(
         round: roundName,
@@ -244,9 +301,60 @@ class RoundState extends State<Round> {
         numIntegrals: numberOfIntegrals(roundName),
         integralTime: timePerIntegral(roundName),
         roundData: matches[currentRound],
-        startRound: startRound);
+        startRound: doRound);
     await loadIntegrals();
     return 1;
+  }
+
+  void updateRounds(List<List<Player>> pairings, List<Player> winners,
+      Map<Player, int> scores) {
+    for (List<Player> pair in pairings) {
+      unfinishedMatches.remove(pair);
+      currentFinished.add(pair);
+    }
+
+    if (currentRound == rounds.length - 1) {
+      //
+      // Checks if the final has finished
+      //
+      winner = winners[0];
+      runnerUp = pairings[0][0] == winner ? pairings[0][1] : pairings[0][0];
+
+      schoolPoints[winner.school] = schoolPoints[winner.school]! + 5;
+      winningSchool = winner.school;
+    } else {
+      for (Player winner in winners) {
+        //
+        // Places winners in next round by pairing them with the first player that does
+        // not have an opponent. Also addresses case where there are players leftover from
+        // first round without a partner.
+        //
+        int idx = 0;
+        bool assigned = false;
+        while (idx < matches[currentRound + 1].length) {
+          if (matches[currentRound + 1][idx].length == 1) {
+            matches[currentRound + 1][idx].add(winner);
+            assigned = true;
+          }
+          idx += 1;
+        }
+        if (!assigned) {
+          matches[currentRound + 1].add([winner]);
+        }
+        //
+        // Assigns points to school of winning player
+        //
+        schoolPoints[winner.school] = schoolPoints[winner.school]! + 5;
+      }
+    }
+    setState(() {
+      currentStage = MatchSummary(
+          round: rounds[currentRound],
+          winners: winners,
+          scores: scores,
+          pairings: pairings,
+          continueRound: doRound);
+    });
   }
 
   @override

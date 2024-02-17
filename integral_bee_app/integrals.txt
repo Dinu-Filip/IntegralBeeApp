@@ -27,3 +27,13 @@
 \int \sqrt{x} \ dx,\frac{2}{3} x^{3/2} + c,Easy,all
 \int \frac{x}{\sqrt{x^2+1}} \ dx,\frac{1}{2} \sqrt{x^2+1} + c,Medium,all
 \int \frac{x}{1+x^2} \ dx,\frac{1}{2} \ln (1+x^2) + c,Medium,all
+\int \frac{1}{x^2-1} dx, \frac{1}{2} \ln | \frac{x-1}{x+1} | + C,Hard,all
+\int \frac{1}{\sqrt{1-x^2}} dx, \sin^{-1}(x) + C,Hard,all
+\int \frac{1}{1+x^2} dx, \tan^{-1}(x) + C,Hard,all
+\int \frac{1}{\sqrt{x^2+1}} dx, \ln |x + \sqrt{x^2+1}| + C,Hard,all
+\int \frac{x}{\sqrt{x^2+1}} dx, \sqrt{x^2+1} + C,Hard,all
+\int \frac{1}{x\sqrt{x^2-1}} dx, \sec^{-1} |x| + C,Hard,all
+\int \frac{1}{x^2\sqrt{x^2-1}} dx, -\frac{\sqrt{x^2-1}}{x} + C,Hard,all
+\int \frac{1}{x^2\sqrt{x^2+1}} dx, -\frac{\sqrt{x^2+1}}{x} + C,Hard,all
+\int \frac{x^2}{\sqrt{x^2+1}} dx, \frac{x\sqrt{x^2+1}}{2} - \frac{\ln |x + \sqrt{x^2+1}|}{2} + C,Hard,all
+\int \frac{x^2}{\sqrt{x^2-1}} dx, -\frac{x\sqrt{x^2-1}}{2} + \frac{\ln |x + \sqrt{x^2-1}|}{2} + C,Hard,all

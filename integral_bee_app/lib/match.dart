@@ -13,6 +13,7 @@ class Match extends StatefulWidget {
   final List<List<Player>> pairings;
   final String difficulty;
   final int numIntegrals;
+  final Function endMatch;
 
   const Match(
       {super.key,
@@ -20,7 +21,8 @@ class Match extends StatefulWidget {
       required this.integrals,
       required this.pairings,
       required this.difficulty,
-      required this.numIntegrals});
+      required this.numIntegrals,
+      required this.endMatch});
 
   @override
   State<Match> createState() => MatchState();
@@ -186,13 +188,13 @@ class MatchState extends State<Match> {
     // Calculates number of seconds for corresponding round
     //
     if (widget.round == "Quarterfinal") {
-      timeLimit = 3 * 60;
+      timeLimit = 3;
     } else if (widget.round == "Semifinal") {
-      timeLimit = 4 * 60;
+      timeLimit = 3;
     } else if (widget.round == "Final") {
-      timeLimit = 5 * 60;
+      timeLimit = 3;
     } else {
-      timeLimit = (3).toInt();
+      timeLimit = 3;
     }
   }
 
@@ -226,23 +228,10 @@ class MatchState extends State<Match> {
         }
       }
     }
-    print("-------");
-    for (List<Player> pair in widget.pairings) {
-      print("${pair[0].name} vs ${pair[1].name}");
-    }
-    print("-------");
-    for (List<Player> pair in remainingPairings) {
-      print("${pair[0].name} vs ${pair[1].name}");
-    }
-    print("-------");
-    for (Player player in playerWins.keys) {
-      print("${player.name}: ${playerWins[player]}");
-    }
-    print("-------");
 
     if (numIntegralsPlayed == widget.numIntegrals ||
         remainingPairings.isEmpty) {
-      print("finished round");
+      widget.endMatch(widget.pairings, winners, playerWins);
     } else {
       setState(() {
         currentStage = MidMatchPreview(

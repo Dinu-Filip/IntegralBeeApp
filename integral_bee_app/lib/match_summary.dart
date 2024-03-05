@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:integral_bee_app/round.dart';
+import 'package:integral_bee_app/player.dart';
 
 class MatchSummary extends StatelessWidget {
   final String round;
@@ -36,48 +36,51 @@ class MatchSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    generateResults();
+    if (results.isEmpty) {
+      generateResults();
+    }
 
-    return Column(children: [
+    return ListView(children: [
       Padding(
           padding: const EdgeInsets.only(top: 30, bottom: 30),
           child: Text("$round Match Summary",
+              textAlign: TextAlign.center,
               style:
                   const TextStyle(fontSize: 45, fontWeight: FontWeight.bold))),
-      Expanded(
-          child: FractionallySizedBox(
-              widthFactor: 0.6,
-              child: Column(children: [
-                const Divider(color: Colors.black),
-                const SizedBox(height: 10),
-                Column(children: results),
-                const SizedBox(height: 10),
-                const Divider(color: Colors.black),
-                const SizedBox(height: 10),
-                Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 10),
-                    child: Text(
-                        textAlign: TextAlign.center,
-                        style: textFieldStyle,
-                        "Well done to ${winnerNames.sublist(0, winnerNames.length - 1).join(", ")} and ${winnerNames[winnerNames.length - 1]} who move on to the next round!")),
-                Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 10),
-                    child: Text(
-                        textAlign: TextAlign.center,
-                        style: textFieldStyle,
-                        "Thank you ${loserNames.sublist(0, loserNames.length - 1).join(", ")} and ${loserNames[loserNames.length - 1]} for taking part!"))
-              ]))),
+      FractionallySizedBox(
+          widthFactor: 0.6,
+          child: Column(children: [
+            const Divider(color: Colors.black),
+            const SizedBox(height: 10),
+            Column(children: results),
+            const SizedBox(height: 10),
+            const Divider(color: Colors.black),
+            const SizedBox(height: 10),
+            Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
+                child: Text(
+                    textAlign: TextAlign.center,
+                    style: textFieldStyle,
+                    "Well done to ${winnerNames.sublist(0, winnerNames.length - 1).join(", ")} and ${winnerNames[winnerNames.length - 1]} who move on to the next round!")),
+            Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
+                child: Text(
+                    textAlign: TextAlign.center,
+                    style: textFieldStyle,
+                    "Thank you ${loserNames.sublist(0, loserNames.length - 1).join(", ")} and ${loserNames[loserNames.length - 1]} for taking part!"))
+          ])),
       Padding(
-          padding: const EdgeInsets.only(bottom: 50),
-          child: SizedBox(
-              height: 60,
-              width: 400,
-              child: TextButton(
-                  onPressed: () {
-                    continueRound();
-                  },
-                  child: const Text("Next match",
-                      style: TextStyle(fontSize: 30)))))
+          padding: const EdgeInsets.only(bottom: 50, top: 20),
+          child: Align(
+              child: SizedBox(
+                  height: 50,
+                  width: 300,
+                  child: TextButton(
+                      onPressed: () {
+                        continueRound();
+                      },
+                      child: const Text("Next match",
+                          style: TextStyle(fontSize: 30))))))
     ]);
   }
 }

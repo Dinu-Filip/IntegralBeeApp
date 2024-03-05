@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:integral_bee_app/integral_summary.dart';
+import 'package:integral_bee_app/integral_timer.dart';
 import 'package:integral_bee_app/mid_match_preview.dart';
-import 'package:integral_bee_app/round.dart';
+import 'package:integral_bee_app/integral.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
-import 'package:timer_count_down/timer_controller.dart';
-import 'package:timer_count_down/timer_count_down.dart';
+import 'package:integral_bee_app/settings.dart';
 import 'package:integral_bee_app/match_countdown.dart';
+import 'package:integral_bee_app/player.dart';
 
 class Match extends StatefulWidget {
   final List<Integral> integrals;
@@ -32,7 +33,6 @@ class MatchState extends State<Match> {
   late int timeLimit;
   late List<List<Player>> remainingPairings =
       widget.pairings.map((List<Player> pair) => pair).toList();
-  final CountdownController _controller = CountdownController(autoStart: true);
   //
   // playedIntegrals stores integrals that have been played so far
   //
@@ -50,6 +50,7 @@ class MatchState extends State<Match> {
   static const integralTextStyle = TextStyle(fontSize: 75);
   late Widget currentStage;
   bool initialised = false;
+  bool toPause = true;
 
   void assignIntegrals() {
     if (playedIntegrals.isNotEmpty) {
@@ -73,9 +74,9 @@ class MatchState extends State<Match> {
         // Assigns FM integral only if both players in Year 13 and study FM
         //
         if (currentIntegral.years == "13FM") {
-          if (pairing[0].year == "13" &&
+          if (pairing[0].year == Years.year13.year &&
               pairing[0].studiesFM &&
-              pairing[1].year == "13" &&
+              pairing[1].year == Years.year13.year &&
               pairing[1].studiesFM) {
             currentIntegrals[pairing] = currentIntegral;
             widget.integrals.removeAt(idx);
@@ -85,8 +86,9 @@ class MatchState extends State<Match> {
         //
         // Assigns Year 12 integral only if both players in Year 12
         //
-        else if (currentIntegral.years == "12") {
-          if (pairing[0].year == "12" && pairing[1].year == "12") {
+        else if (currentIntegral.years == Years.year12.year) {
+          if (pairing[0].year == Years.year12.year &&
+              pairing[1].year == Years.year12.year) {
             currentIntegrals[pairing] = currentIntegral;
             widget.integrals.removeAt(idx);
             break;
@@ -187,14 +189,14 @@ class MatchState extends State<Match> {
     //
     // Calculates number of seconds for corresponding round
     //
-    if (widget.round == "Quarterfinal") {
-      timeLimit = 3;
-    } else if (widget.round == "Semifinal") {
-      timeLimit = 3;
-    } else if (widget.round == "Final") {
-      timeLimit = 3;
+    if (widget.round == Rounds.quarterfinalRound.round) {
+      timeLimit = 180;
+    } else if (widget.round == Rounds.semifinalRound.round) {
+      timeLimit = 240;
+    } else if (widget.round == Rounds.finalRound.round) {
+      timeLimit = 300;
     } else {
-      timeLimit = 3;
+      timeLimit = 150;
     }
   }
 
@@ -259,52 +261,8 @@ class MatchState extends State<Match> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(child: createIntegralDisplays()),
-            SizedBox(
-                height: MediaQuery.of(context).size.height * 0.25,
-                child: Column(children: [
-                  Expanded(
-                      child: Countdown(
-                    controller: _controller,
-                    seconds: timeLimit,
-                    build: (_, double time) => Text(
-                      time.toString(),
-                      style: const TextStyle(
-                        fontSize: 100,
-                      ),
-                    ),
-                    interval: const Duration(milliseconds: 100),
-                    onFinished: () {
-                      showIntegralSummary();
-                    },
-                  )),
-                  Padding(
-                      padding: const EdgeInsets.only(bottom: 50),
-                      child: SizedBox(
-                          height: 70,
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                    width: 200,
-                                    height: 55,
-                                    child: TextButton(
-                                        onPressed: () {
-                                          _controller.pause();
-                                        },
-                                        child: const Text("Pause",
-                                            style: TextStyle(fontSize: 30)))),
-                                const SizedBox(width: 200),
-                                SizedBox(
-                                    width: 200,
-                                    height: 55,
-                                    child: TextButton(
-                                        onPressed: () {
-                                          _controller.resume();
-                                        },
-                                        child: const Text("Resume",
-                                            style: TextStyle(fontSize: 30))))
-                              ])))
-                ]))
+            IntegralTimer(
+                time: timeLimit, showIntegralSummary: showIntegralSummary)
           ]);
     });
   }

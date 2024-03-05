@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:integral_bee_app/integral.dart';
 import 'package:integral_bee_app/match_preview.dart';
 import 'package:integral_bee_app/match_summary.dart';
 import 'package:integral_bee_app/round_preview.dart';
@@ -7,35 +8,9 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'dart:io';
 import 'dart:math';
 import 'package:integral_bee_app/match.dart';
-
-class Player {
-  final String name;
-  final String school;
-  final String year;
-  final bool studiesFM;
-  String? lastRound;
-
-  Player(
-      {required this.name,
-      required this.school,
-      required this.year,
-      required this.studiesFM});
-}
-
-class Integral {
-  final String integral;
-  final String answer;
-  final String difficulty;
-  bool played;
-  final String years;
-
-  Integral(
-      {required this.integral,
-      required this.answer,
-      required this.difficulty,
-      required this.played,
-      required this.years});
-}
+import 'package:integral_bee_app/player.dart';
+import 'package:integral_bee_app/draw.dart';
+import 'package:integral_bee_app/settings.dart';
 
 class Round extends StatefulWidget {
   const Round({super.key});
@@ -54,20 +29,15 @@ class RoundState extends State<Round> {
   // unfinishedMatches stores matches that have not yet taken place
   //
   final List<List<Player>> unfinishedMatches = [];
-
-  final List<String> rounds = ["Quarterfinal", "Semifinal", "Final"];
+  final List<String> rounds = Rounds.values.map((val) => val.round).toList();
   final List<Integral> integrals = [];
   final Map<String, List<Integral>> remainingIntegrals = {
     "Easy": [],
     "Medium": [],
     "Hard": []
   };
-  static const String playerFile = "player.txt";
-  static const String integralFile = "integrals.txt";
-  static const List<String> schools = ["Beths Grammar School"];
-  static const Map<String, String> schoolCode = {
-    "Beths Grammar School": "Beths"
-  };
+  final List<String> schools =
+      Schools.values.map((school) => school.schoolName).toList();
   bool initialised = false;
   final Map<String, int> schoolPoints = {};
   List<Player> participants = [];
@@ -181,7 +151,8 @@ class RoundState extends State<Round> {
   }
 
   int numberOfIntegrals(String round) {
-    if (round == "Semifinal" || round == "Final") {
+    if (round == Rounds.semifinalRound.round ||
+        round == Rounds.finalRound.round) {
       return 5;
     } else {
       return 3;
@@ -189,11 +160,11 @@ class RoundState extends State<Round> {
   }
 
   double timePerIntegral(String round) {
-    if (round == "Quarterfinal") {
+    if (round == Rounds.quarterfinalRound.round) {
       return 3;
-    } else if (round == "Semifinal") {
+    } else if (round == Rounds.semifinalRound.round) {
       return 4;
-    } else if (round == "Final") {
+    } else if (round == Rounds.finalRound.round) {
       return 5;
     } else {
       return 0.1;
@@ -202,11 +173,11 @@ class RoundState extends State<Round> {
 
   String integralDifficulty() {
     String roundName = rounds[currentRound];
-    if (roundName == "Quarterfinal") {
+    if (roundName == Rounds.quarterfinalRound.round) {
       return "Medium";
-    } else if (roundName == "Semifinal") {
+    } else if (roundName == Rounds.semifinalRound.round) {
       return "Hard";
-    } else if (roundName == "Final") {
+    } else if (roundName == Rounds.finalRound.round) {
       return "Hard";
     } else {
       return "Easy";
@@ -252,7 +223,8 @@ class RoundState extends State<Round> {
               numIntegrals: numberOfIntegrals(roundName),
               integralTime: timePerIntegral(roundName),
               roundData: matches[currentRound],
-              startRound: doRound);
+              startRound: doRound,
+              showDraw: showDraw);
         });
       }
     } else {
@@ -301,7 +273,8 @@ class RoundState extends State<Round> {
         numIntegrals: numberOfIntegrals(roundName),
         integralTime: timePerIntegral(roundName),
         roundData: matches[currentRound],
-        startRound: doRound);
+        startRound: doRound,
+        showDraw: showDraw);
     await loadIntegrals();
     return 1;
   }
@@ -355,6 +328,14 @@ class RoundState extends State<Round> {
           pairings: pairings,
           continueRound: doRound);
     });
+  }
+
+  void showDraw() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                Scaffold(body: Center(child: Draw(draw: matches)))));
   }
 
   @override

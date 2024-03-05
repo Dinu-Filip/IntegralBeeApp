@@ -4,12 +4,12 @@ Elia Battaglia,Beths Grammar School,Year 13,true
 Alex Litchev,Beths Grammar School,Year 13,true
 Peter Tran,Beths Grammar School,Year 13,true
 Samyam Pandey,Beths Grammar School,Year 13,true
-Ovie,Beths Grammar School,Year 13,true
+Ovie Ogberahwe,Beths Grammar School,Year 13,true
 Anish Baskaran,Beths Grammar School,Year 13,true
 Marc Wamunuko,Beths Grammar School,Year 13,true
-Joseph,Beths Grammar School,Year 13,true
+Joseph Ogunwale,Beths Grammar School,Year 13,true
 Faiyad Zafor,Beths Grammar School,Year 13,true
-Temi,Beths Grammar School,Year 13,true
+Temi Bello,Beths Grammar School,Year 13,true
 Ethan Schoeb,Beths Grammar School,Year 13,true
 Kiefer Nye,Beths Grammar School,Year 13,true
 Jobayer Khan,Beths Grammar School,Year 13,true

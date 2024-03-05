@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:integral_bee_app/standard_widgets.dart';
 
 class RoundPreview extends StatefulWidget {
   final String round;
@@ -7,6 +8,7 @@ class RoundPreview extends StatefulWidget {
   final double integralTime;
   final List<dynamic> roundData;
   final Function startRound;
+  final Function showDraw;
 
   const RoundPreview(
       {super.key,
@@ -15,7 +17,8 @@ class RoundPreview extends StatefulWidget {
       required this.numIntegrals,
       required this.integralTime,
       required this.roundData,
-      required this.startRound});
+      required this.startRound,
+      required this.showDraw});
 
   @override
   State<RoundPreview> createState() => RoundPreviewState();
@@ -29,51 +32,43 @@ class RoundPreviewState extends State<RoundPreview> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+    return ListView(
       children: [
-        Padding(
-            padding: const EdgeInsets.all(20),
-            child: Text(widget.round,
-                style: const TextStyle(
-                    fontSize: 60, fontWeight: FontWeight.bold))),
-        Text("Number of participants: ${widget.numParticipants}",
-            style: const TextStyle(fontSize: 40)),
+        StageTitle1(text: widget.round),
+        StageHeader(text: "Number of participants: ${widget.numParticipants}"),
         const Padding(
             padding: EdgeInsets.all(15),
             child: FractionallySizedBox(
                 widthFactor: 0.6, child: Divider(color: Colors.black))),
-        Text("${widget.numIntegrals} integrals",
-            style: const TextStyle(fontSize: 40)),
-        Text("${widget.integralTime} minutes per integral",
-            style: const TextStyle(fontSize: 40)),
+        StageHeader(text: "${widget.numIntegrals} integrals"),
+        StageHeader(text: "${widget.integralTime} minutes per integral"),
         const Padding(
             padding: EdgeInsets.all(15),
             child: FractionallySizedBox(
                 widthFactor: 0.6, child: Divider(color: Colors.black))),
         const Text("Draw",
+            textAlign: TextAlign.center,
             style: TextStyle(fontSize: 40, fontWeight: FontWeight.w600)),
         const SizedBox(height: 15),
         FractionallySizedBox(
             widthFactor: 0.6,
-            child: SingleChildScrollView(
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: widget.roundData
                           .map((match) => () {
                                 return Text(
                                     "${match[0].name} (${schoolCode[match[0].school]})",
-                                    style: const TextStyle(fontSize: 30));
+                                    style: const TextStyle(fontSize: 25));
                               }())
                           .toList()),
                   (() {
                     List<Text> items = [];
                     for (int i = 0; i < widget.roundData.length; i++) {
                       items.add(
-                          const Text("vs.", style: TextStyle(fontSize: 30)));
+                          const Text("vs.", style: TextStyle(fontSize: 25)));
                     }
                     return Column(children: items);
                   }()),
@@ -83,22 +78,36 @@ class RoundPreviewState extends State<RoundPreview> {
                           .map((match) => () {
                                 return Text(
                                     "${match[1].name} (${schoolCode[match[1].school]})",
-                                    style: const TextStyle(fontSize: 30));
+                                    style: const TextStyle(fontSize: 25));
                               }())
                           .toList())
-                ]))),
-        Padding(
-            padding: const EdgeInsets.only(top: 40),
-            child: FractionallySizedBox(
-                widthFactor: 0.3,
-                child: SizedBox(
-                    height: 60,
-                    child: OutlinedButton(
-                        onPressed: () {
-                          widget.startRound();
-                        },
-                        child: const Text("Start round",
-                            style: TextStyle(fontSize: 25))))))
+                ])),
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: SizedBox(
+                  height: 60,
+                  width: 200,
+                  child: OutlinedButton(
+                      onPressed: () {
+                        widget.startRound();
+                      },
+                      child: const Text("Start round",
+                          style: TextStyle(fontSize: 25))))),
+          const SizedBox(width: 100),
+          Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: SizedBox(
+                  width: 200,
+                  height: 60,
+                  child: OutlinedButton(
+                      onPressed: () {
+                        widget.showDraw();
+                      },
+                      child: const Text("Show draw",
+                          style: TextStyle(fontSize: 25)))))
+        ]),
+        const SizedBox(height: 25)
       ],
     );
   }

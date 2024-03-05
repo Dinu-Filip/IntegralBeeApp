@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:integral_bee_app/round.dart';
+import 'package:integral_bee_app/player.dart';
+import 'package:integral_bee_app/standard_widgets.dart';
 
 class MidMatchPreview extends StatelessWidget {
   final List<List<Player>> pairings;
@@ -63,11 +64,7 @@ class MidMatchPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Padding(
-          padding: const EdgeInsets.only(top: 30, bottom: 40),
-          child: Text("$round match progress",
-              style:
-                  const TextStyle(fontSize: 45, fontWeight: FontWeight.bold))),
+      StageTitle2(text: "$round match progress"),
       Expanded(child: Column(children: createDisplays())),
       Padding(
           padding: const EdgeInsets.only(bottom: 50),

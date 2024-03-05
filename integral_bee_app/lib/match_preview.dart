@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:integral_bee_app/round.dart';
 import 'package:integral_bee_app/single_match_display.dart';
+import 'package:integral_bee_app/player.dart';
+import 'package:integral_bee_app/standard_widgets.dart';
 
 class MatchPreview extends StatefulWidget {
   final String round;
@@ -29,7 +30,7 @@ class MatchPreviewState extends State<MatchPreview> {
   //
   // Stores display components that show one pairing each
   //
-  List<SingleMatchDisplay> matchDisplays = [];
+  List<Widget> matchDisplays = [];
   //
   // Stores matches that will take place
   //
@@ -40,23 +41,25 @@ class MatchPreviewState extends State<MatchPreview> {
     //
     // Finds next match not being displayed
     //
-    int currentMatchIdx = widget.matchData.indexOf(displayedMatches[idx]);
-    while (displayedMatches.contains(widget.matchData[currentMatchIdx])) {
-      currentMatchIdx += 1;
-      if (currentMatchIdx == widget.matchData.length) {
-        currentMatchIdx = 0;
+    if (widget.matchData.length > numPairs) {
+      int currentMatchIdx = widget.matchData.indexOf(displayedMatches[idx]);
+      while (displayedMatches.contains(widget.matchData[currentMatchIdx])) {
+        currentMatchIdx += 1;
+        if (currentMatchIdx == widget.matchData.length) {
+          currentMatchIdx = 0;
+        }
       }
+      displayedMatches[idx] = widget.matchData[currentMatchIdx];
+      //
+      // Updates corresponding match display
+      //
+      setState(() {
+        matchDisplays[idx] = SingleMatchDisplay(
+            players: widget.matchData[currentMatchIdx],
+            switchPlayers: switchPlayers,
+            idx: idx);
+      });
     }
-    displayedMatches[idx] = widget.matchData[currentMatchIdx];
-    //
-    // Updates corresponding match display
-    //
-    setState(() {
-      matchDisplays[idx] = SingleMatchDisplay(
-          players: widget.matchData[currentMatchIdx],
-          switchPlayers: switchPlayers,
-          idx: idx);
-    });
   }
 
   void createMatchDisplays() {
@@ -124,17 +127,10 @@ class MatchPreviewState extends State<MatchPreview> {
 
     return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
       const SizedBox(height: 40),
-      Padding(
-          padding: const EdgeInsets.all(15),
-          child: Text("${widget.round} match",
-              style:
-                  const TextStyle(fontSize: 42, fontWeight: FontWeight.bold))),
-      const SizedBox(height: 50),
+      StageTitle2(text: "${widget.round} match"),
+      const SizedBox(height: 20),
       Expanded(
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: matchDisplays)),
+          child: SingleChildScrollView(child: Column(children: matchDisplays))),
       const SizedBox(height: 50),
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         (() {

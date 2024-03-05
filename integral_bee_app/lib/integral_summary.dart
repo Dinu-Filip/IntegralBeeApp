@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
-import 'package:integral_bee_app/round.dart';
+import 'package:integral_bee_app/player.dart';
+import 'package:integral_bee_app/integral.dart';
+import 'package:integral_bee_app/standard_widgets.dart';
 
 class IntegralSummary extends StatefulWidget {
   final Map<List<Player>, Integral?> integralData;
@@ -90,14 +92,11 @@ class IntegralSummaryState extends State<IntegralSummary> {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-      const Padding(
-          padding: EdgeInsets.only(top: 20, bottom: 40),
-          child: Text("Answers and results",
-              style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold))),
+      const StageTitle2(text: "Answers and results"),
       Expanded(
           child: FractionallySizedBox(
               widthFactor: 0.75,
-              child: Column(children: generatePlayerSummary()))),
+              child: ListView(children: generatePlayerSummary()))),
       Padding(
           padding: const EdgeInsets.only(bottom: 50),
           child: SizedBox(

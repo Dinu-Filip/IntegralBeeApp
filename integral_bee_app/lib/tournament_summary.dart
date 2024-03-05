@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:integral_bee_app/round.dart';
+import 'package:integral_bee_app/player.dart';
 
 class TournamentSummary extends StatelessWidget {
   final Player winner;

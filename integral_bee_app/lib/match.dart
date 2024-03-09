@@ -14,7 +14,8 @@ class Match extends StatefulWidget {
   final List<List<Player>> pairings;
   final String difficulty;
   final int numIntegrals;
-  final Function endMatch;
+  final Function updateRounds;
+  final Function addUsedIntegral;
 
   const Match(
       {super.key,
@@ -23,7 +24,8 @@ class Match extends StatefulWidget {
       required this.pairings,
       required this.difficulty,
       required this.numIntegrals,
-      required this.endMatch});
+      required this.updateRounds,
+      required this.addUsedIntegral});
 
   @override
   State<Match> createState() => MatchState();
@@ -41,6 +43,9 @@ class MatchState extends State<Match> {
   // currentIntegrals stores integrals being shown in this part of the match
   //
   final Map<List<Player>, Integral?> currentIntegrals = {};
+  //
+  // Stores number of wins each player has in their match
+  //
   final Map<Player, int> playerWins = {};
   //
   // Stores the winners of their matches to progress to the next round
@@ -53,6 +58,7 @@ class MatchState extends State<Match> {
   bool toPause = true;
 
   void assignIntegrals() {
+    List<Integral> assignedIntegrals = [];
     if (playedIntegrals.isNotEmpty) {
       for (List<Player> pairing in currentIntegrals.keys) {
         playedIntegrals[pairing]!.add(currentIntegrals[pairing]!);
@@ -79,6 +85,7 @@ class MatchState extends State<Match> {
               pairing[1].year == Years.year13.year &&
               pairing[1].studiesFM) {
             currentIntegrals[pairing] = currentIntegral;
+            assignedIntegrals.add(currentIntegral);
             widget.integrals.removeAt(idx);
             break;
           }
@@ -90,17 +97,21 @@ class MatchState extends State<Match> {
           if (pairing[0].year == Years.year12.year &&
               pairing[1].year == Years.year12.year) {
             currentIntegrals[pairing] = currentIntegral;
+            assignedIntegrals.add(currentIntegral);
             widget.integrals.removeAt(idx);
             break;
           }
         } else {
           currentIntegrals[pairing] = currentIntegral;
+          assignedIntegrals.add(currentIntegral);
           widget.integrals.removeAt(idx);
           break;
         }
         idx += 1;
       }
     }
+    widget.addUsedIntegral(
+        assignedIntegrals.map((integral) => integral.integral).toList());
   }
 
   Widget createIntegralDisplays() {
@@ -209,6 +220,8 @@ class MatchState extends State<Match> {
 
   void updateMatch(Map<List<Player>, Player?> results) {
     numIntegralsPlayed += 1;
+    List<List<Player>> completed = [];
+    List<Player> currentWinners = [];
     for (List<Player> pair in results.keys) {
       Player? winner = results[pair];
       if (winner != null) {
@@ -224,17 +237,21 @@ class MatchState extends State<Match> {
           //
           // Removes pairing to show only integrals for pairs still in play
           //
+          print(pair);
           remainingPairings.remove(pair);
+          completed.add(pair);
           currentIntegrals.remove(pair);
           winners.add(winner);
+          currentWinners.add(winner);
         }
       }
     }
 
     if (numIntegralsPlayed == widget.numIntegrals ||
         remainingPairings.isEmpty) {
-      widget.endMatch(widget.pairings, winners, playerWins);
+      widget.updateRounds(completed, currentWinners, playerWins, true);
     } else {
+      widget.updateRounds(completed, currentWinners, playerWins, false);
       setState(() {
         currentStage = MidMatchPreview(
             pairings: widget.pairings,

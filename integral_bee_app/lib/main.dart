@@ -1,7 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:integral_bee_app/add_players.dart';
+import 'package:integral_bee_app/player.dart';
+import 'dart:convert';
 import 'package:integral_bee_app/round.dart';
+import 'dart:io';
 
 void main() {
   runApp(const MyApp());
@@ -35,6 +39,101 @@ class _MyHomePageState extends State<MyHomePage> {
         context,
         MaterialPageRoute(
             builder: (context) => Scaffold(body: Center(child: page))));
+  }
+
+  void loadFromPrevious() async {
+    String compData = await File("compData.json").readAsString();
+    Map<String, dynamic> jsonContent = json.decode(compData);
+    Map<Map<String, dynamic>, Player> jsonToPlayer = {};
+    //
+    // Creates player objects from previous player data
+    //
+    for (Map<String, dynamic> playerData in jsonContent["participants"]) {
+      jsonToPlayer[playerData] = Player(
+          name: playerData["name"],
+          school: playerData["school"],
+          year: playerData["year"],
+          studiesFM: playerData["studiesFM"]);
+    }
+    List<List<dynamic>> matches = [];
+    for (List<dynamic> round in jsonContent["matches"]) {
+      matches.add([]);
+
+      for (List<dynamic> pairing in round) {
+        Player? player1;
+        Player? player2;
+        for (Map<String, dynamic> playerData in jsonToPlayer.keys) {
+          if (mapEquals(playerData, pairing[0])) {
+            player1 = jsonToPlayer[playerData]!;
+          }
+          if (pairing.length == 2) {
+            if (mapEquals(playerData, pairing[1])) {
+              player2 = jsonToPlayer[playerData]!;
+            }
+          }
+        }
+        if (player2 != null) {
+          matches.last.add([player1!, player2]);
+        } else {
+          matches.last.add([player1!]);
+        }
+      }
+    }
+    List<List<Player>> currentFinished = [];
+    print(jsonContent["currentFinished"]);
+    for (List<dynamic> pairings in jsonContent["currentFinished"]) {
+      late Player player1;
+      late Player player2;
+      for (Map<String, dynamic> playerData in jsonToPlayer.keys) {
+        if (mapEquals(playerData, pairings[0])) {
+          player1 = jsonToPlayer[playerData]!;
+        } else if (mapEquals(playerData, pairings[1])) {
+          player2 = jsonToPlayer[playerData]!;
+        }
+      }
+      for (List<Player> match in matches[jsonContent["currentRound"]]) {
+        if (match[0] == player1 && match[1] == player2) {
+          currentFinished.add(match);
+        }
+      }
+    }
+
+    List<List<Player>> unfinishedMatches = [];
+    for (List<dynamic> pairings in jsonContent["unfinishedMatches"]) {
+      late Player player1;
+      late Player player2;
+      for (Map<String, dynamic> playerData in jsonToPlayer.keys) {
+        if (mapEquals(playerData, pairings[0])) {
+          player1 = jsonToPlayer[playerData]!;
+        } else if (mapEquals(playerData, pairings[1])) {
+          player2 = jsonToPlayer[playerData]!;
+        }
+      }
+      for (List<Player> match in matches[jsonContent["currentRound"]]) {
+        if (match[0] == player1 && match[1] == player2) {
+          unfinishedMatches.add(match);
+        }
+      }
+    }
+    List<Player> participants = [];
+    for (Map<String, dynamic> player in jsonContent["participants"]) {
+      for (Map<String, dynamic> playerData in jsonToPlayer.keys) {
+        if (mapEquals(playerData, player)) {
+          participants.add(jsonToPlayer[playerData]!);
+        }
+      }
+    }
+
+    onPageSelect(Round(
+      matches: matches,
+      currentFinished: currentFinished,
+      unfinishedMatches: unfinishedMatches,
+      schoolPoints: jsonContent["schoolPoints"],
+      assignedIntegrals: jsonContent["assignedIntegrals"],
+      currentRound: jsonContent["currentRound"],
+      participants: participants,
+      loadFromPrevious: true,
+    ));
   }
 
   @override
@@ -123,7 +222,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                     .circular(
                                                                         10))),
                                                 onPressed: () {
-                                                  print("good");
+                                                  loadFromPrevious();
                                                 },
                                                 label: const AutoSizeText(
                                                     textAlign: TextAlign.center,

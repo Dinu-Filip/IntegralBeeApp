@@ -11,4 +11,14 @@ class Integral {
       required this.difficulty,
       required this.played,
       required this.years});
+
+  Map<String, dynamic> toJson() {
+    return {
+      "integral": integral,
+      "answer": answer,
+      "difficulty": difficulty,
+      "played": played,
+      "years": years
+    };
+  }
 }

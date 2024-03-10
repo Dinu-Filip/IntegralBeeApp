@@ -9,13 +9,14 @@ import 'package:integral_bee_app/match_countdown.dart';
 import 'package:integral_bee_app/player.dart';
 
 class Match extends StatefulWidget {
-  final List<Integral> integrals;
+  final Map<String, List<Integral>> integrals;
   final String round;
   final List<List<Player>> pairings;
   final String difficulty;
   final int numIntegrals;
   final Function updateRounds;
   final Function addUsedIntegral;
+  final Function endMatch;
 
   const Match(
       {super.key,
@@ -25,6 +26,7 @@ class Match extends StatefulWidget {
       required this.difficulty,
       required this.numIntegrals,
       required this.updateRounds,
+      required this.endMatch,
       required this.addUsedIntegral});
 
   @override
@@ -50,19 +52,24 @@ class MatchState extends State<Match> {
   //
   // Stores the winners of their matches to progress to the next round
   //
-  final List<Player> winners = [];
+  List<Player> winners = [];
+  //
+  // Stores total number of given integrals
+  //
   int numIntegralsPlayed = 0;
   static const integralTextStyle = TextStyle(fontSize: 75);
   late Widget currentStage;
   bool initialised = false;
   bool toPause = true;
+  late String currentDifficulty = widget.difficulty;
+  List<List<Player>> completed = [];
 
   void assignIntegrals() {
     List<Integral> assignedIntegrals = [];
     if (playedIntegrals.isNotEmpty) {
       for (List<Player> pairing in currentIntegrals.keys) {
         playedIntegrals[pairing]!.add(currentIntegrals[pairing]!);
-        widget.integrals.remove(currentIntegrals[pairing]);
+        widget.integrals[currentDifficulty]!.remove(currentIntegrals[pairing]);
         currentIntegrals[pairing]!.played = true;
       }
     } else {
@@ -74,8 +81,8 @@ class MatchState extends State<Match> {
 
     for (List<Player> pairing in remainingPairings) {
       int idx = 0;
-      while (idx < widget.integrals.length) {
-        Integral currentIntegral = widget.integrals[idx];
+      while (idx < widget.integrals[currentDifficulty]!.length) {
+        Integral currentIntegral = widget.integrals[currentDifficulty]![idx];
         //
         // Assigns FM integral only if both players in Year 13 and study FM
         //
@@ -86,7 +93,7 @@ class MatchState extends State<Match> {
               pairing[1].studiesFM) {
             currentIntegrals[pairing] = currentIntegral;
             assignedIntegrals.add(currentIntegral);
-            widget.integrals.removeAt(idx);
+            widget.integrals[currentDifficulty]!.removeAt(idx);
             break;
           }
         }
@@ -98,13 +105,13 @@ class MatchState extends State<Match> {
               pairing[1].year == Years.year12.year) {
             currentIntegrals[pairing] = currentIntegral;
             assignedIntegrals.add(currentIntegral);
-            widget.integrals.removeAt(idx);
+            widget.integrals[currentDifficulty]!.removeAt(idx);
             break;
           }
         } else {
           currentIntegrals[pairing] = currentIntegral;
           assignedIntegrals.add(currentIntegral);
-          widget.integrals.removeAt(idx);
+          widget.integrals[currentDifficulty]!.removeAt(idx);
           break;
         }
         idx += 1;
@@ -218,47 +225,78 @@ class MatchState extends State<Match> {
     });
   }
 
+  void reduceDifficulty() {
+    if (currentDifficulty == "Hard") {
+      currentDifficulty = "Medium";
+    } else if (currentDifficulty == "Medium") {
+      currentDifficulty = "Easy";
+    }
+  }
+
   void updateMatch(Map<List<Player>, Player?> results) {
     numIntegralsPlayed += 1;
-    List<List<Player>> completed = [];
-    List<Player> currentWinners = [];
+    List<List<Player>> newCompleted = [];
+    List<Player> newWinners = [];
     for (List<Player> pair in results.keys) {
       Player? winner = results[pair];
       if (winner != null) {
         Player loser = pair[0] == winner ? pair[1] : pair[0];
         playerWins[winner] = playerWins[winner]! + 1;
-        int numRemainingIntegrals = widget.numIntegrals - numIntegralsPlayed;
         //
-        // Checks to see if losing player can draw if they get all remaining
-        // integrals correct
+        // Checks if the match is currently at a tiebreak
         //
-        if (playerWins[loser]! + numRemainingIntegrals < playerWins[winner]!) {
-          loser.lastRound = widget.round;
+        if (numIntegralsPlayed > widget.numIntegrals) {
           //
-          // Removes pairing to show only integrals for pairs still in play
+          // Player wins if they have just one more win than the
           //
-          print(pair);
-          remainingPairings.remove(pair);
-          completed.add(pair);
-          currentIntegrals.remove(pair);
-          winners.add(winner);
-          currentWinners.add(winner);
+          if (playerWins[winner]! > playerWins[loser]!) {
+            //
+            // Reduces difficulty every three integrals
+            //
+            if (numIntegralsPlayed % 3 == 0) {
+              reduceDifficulty();
+            }
+            loser.lastRound = widget.round;
+            //
+            // Removes pairing to show only integrals for pairs still in play
+            //
+            remainingPairings.remove(pair);
+            newWinners.add(winner);
+            newCompleted.add(pair);
+            currentIntegrals.remove(pair);
+          }
+        } else {
+          int numRemainingIntegrals = widget.numIntegrals - numIntegralsPlayed;
+          //
+          // Checks to see if losing player can draw if they get all remaining
+          // integrals correct
+          //
+          if (playerWins[loser]! + numRemainingIntegrals <
+              playerWins[winner]!) {
+            loser.lastRound = widget.round;
+            remainingPairings.remove(pair);
+            newCompleted.add(pair);
+            currentIntegrals.remove(pair);
+            newWinners.add(winner);
+          }
         }
       }
     }
-
-    if (numIntegralsPlayed == widget.numIntegrals ||
-        remainingPairings.isEmpty) {
-      widget.updateRounds(completed, currentWinners, playerWins, true);
+    winners += newWinners;
+    completed += newCompleted;
+    if (remainingPairings.isEmpty) {
+      widget.updateRounds(newCompleted, newWinners, playerWins);
+      widget.endMatch(completed, winners, playerWins);
     } else {
-      widget.updateRounds(completed, currentWinners, playerWins, false);
+      widget.updateRounds(newCompleted, newWinners, playerWins);
       setState(() {
         currentStage = MidMatchPreview(
             pairings: widget.pairings,
             results: playerWins,
             continueMatch: continueMatch,
             round: widget.round,
-            winners: winners);
+            winners: winners,
+            tiebreak: numIntegralsPlayed >= widget.numIntegrals ? true : false);
       });
     }
   }

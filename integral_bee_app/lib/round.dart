@@ -270,24 +270,23 @@ class RoundState extends State<Round> {
       currentStage = Match(
         addUsedIntegral: addUsedIntegral,
         difficulty: currentDifficulty,
-        integrals: remainingIntegrals[currentDifficulty]!,
+        integrals: remainingIntegrals,
         pairings: pairings,
         round: round,
         updateRounds: updateRounds,
+        endMatch: endMatch,
         numIntegrals: numberOfIntegrals(round),
       );
     });
   }
 
   void doRound() {
-    print(unfinishedMatches);
     for (List<Player> match in matches[currentRound]) {
       if (!currentFinished.contains(match) &&
           !unfinishedMatches.contains(match)) {
         unfinishedMatches.add(match);
       }
     }
-    print(unfinishedMatches);
     if (unfinishedMatches.isEmpty) {
       //
       // Moves onto next round
@@ -347,7 +346,7 @@ class RoundState extends State<Round> {
   Future<int> initialise() async {
     if (widget.loadFromPrevious) {
       //
-      // Loads competition data from previous tournament
+      // Loads competition data from in progress tournament
       //
       matches = widget.matches!;
       currentFinished = widget.currentFinished!;
@@ -356,27 +355,8 @@ class RoundState extends State<Round> {
       schoolPoints = widget.schoolPoints!;
       participants = widget.participants!;
       setRounds();
-      //
-      // If none of the matches have ended, then the round itself has not started
-      //
-      print(unfinishedMatches);
-      if (currentFinished.isEmpty) {
-        String roundName = rounds[currentRound];
-        currentStage = RoundPreview(
-            round: roundName,
-            numParticipants: matches[currentRound].length * 2,
-            numIntegrals: numberOfIntegrals(roundName),
-            integralTime: timePerIntegral(roundName),
-            roundData: matches[currentRound],
-            startRound: doRound,
-            showDraw: showDraw);
-      } else {
-        currentStage = MatchPreview(
-            round: rounds[currentRound],
-            matchData: unfinishedMatches,
-            startMatch: startMatch);
-      }
       await loadIntegrals();
+      doRound();
     } else {
       //
       // Clears any previously stored competition data
@@ -402,13 +382,15 @@ class RoundState extends State<Round> {
   }
 
   void updateRounds(List<List<Player>> pairings, List<Player> winners,
-      Map<Player, int> scores, bool endMatch) {
+      Map<Player, int> scores) {
     //
     // Updates progress of round in external storage
     //
     for (List<Player> pair in pairings) {
       unfinishedMatches.remove(pair);
-      currentFinished.add(pair);
+      if (!currentFinished.contains(pair)) {
+        currentFinished.add(pair);
+      }
     }
 
     if (currentRound == rounds.length - 1) {
@@ -446,17 +428,18 @@ class RoundState extends State<Round> {
       }
     }
     updateCompPairData();
+  }
 
-    if (endMatch) {
-      setState(() {
-        currentStage = MatchSummary(
-            round: rounds[currentRound],
-            winners: winners,
-            scores: scores,
-            pairings: pairings,
-            continueRound: doRound);
-      });
-    }
+  void endMatch(List<List<Player>> pairings, List<Player> winners,
+      Map<Player, int> scores) {
+    setState(() {
+      currentStage = MatchSummary(
+          round: rounds[currentRound],
+          winners: winners,
+          scores: scores,
+          pairings: pairings,
+          continueRound: doRound);
+    });
   }
 
   void showDraw() {

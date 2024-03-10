@@ -18,6 +18,7 @@ class IntegralSummary extends StatefulWidget {
 class IntegralSummaryState extends State<IntegralSummary> {
   Map<List<Player>, Player?> rawResults = {};
   TextStyle nameStyle = const TextStyle(fontSize: 25);
+  bool initialised = false;
 
   List<Widget> generatePlayerSummary() {
     List<List<Player>> pairs = widget.integralData.keys.toList();
@@ -91,6 +92,12 @@ class IntegralSummaryState extends State<IntegralSummary> {
 
   @override
   Widget build(BuildContext context) {
+    if (!initialised) {
+      for (List<Player> pair in widget.integralData.keys.toList()) {
+        rawResults[pair] = null;
+      }
+      initialised = true;
+    }
     return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
       const StageTitle2(text: "Answers and results"),
       Expanded(

@@ -80,7 +80,6 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     }
     List<List<Player>> currentFinished = [];
-    print(jsonContent["currentFinished"]);
     for (List<dynamic> pairings in jsonContent["currentFinished"]) {
       late Player player1;
       late Player player2;

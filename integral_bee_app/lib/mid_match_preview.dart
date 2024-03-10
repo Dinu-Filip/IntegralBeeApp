@@ -10,7 +10,12 @@ class MidMatchPreview extends StatelessWidget {
   final List<Player> winners;
   final TextStyle nameStyle =
       const TextStyle(fontSize: 40, color: Colors.black);
+  final TextStyle tiebreakStyle = const TextStyle(
+      fontSize: 40,
+      fontWeight: FontWeight.w500,
+      color: Color.fromARGB(255, 0, 94, 255));
   final TextStyle scoreStyle = const TextStyle(fontSize: 30);
+  final bool tiebreak;
 
   const MidMatchPreview(
       {super.key,
@@ -18,7 +23,8 @@ class MidMatchPreview extends StatelessWidget {
       required this.results,
       required this.continueMatch,
       required this.round,
-      required this.winners});
+      required this.winners,
+      required this.tiebreak});
 
   List<Widget> createDisplays() {
     List<Widget> playerDisplays = [];
@@ -48,6 +54,9 @@ class MidMatchPreview extends StatelessWidget {
                       winner == pair[1] ? FontWeight.bold : FontWeight.normal,
                   fontSize: 40))
         ])));
+      } else if (tiebreak) {
+        singleDisplay.add(
+            Text("${pair[0].name} vs. ${pair[1].name}", style: tiebreakStyle));
       } else {
         singleDisplay
             .add(Text("${pair[0].name} vs. ${pair[1].name}", style: nameStyle));

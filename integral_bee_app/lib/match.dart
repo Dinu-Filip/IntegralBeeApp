@@ -38,10 +38,6 @@ class MatchState extends State<Match> {
   late List<List<Player>> remainingPairings =
       widget.pairings.map((List<Player> pair) => pair).toList();
   //
-  // playedIntegrals stores integrals that have been played so far
-  //
-  final Map<List<Player>, List<Integral>> playedIntegrals = {};
-  //
   // currentIntegrals stores integrals being shown in this part of the match
   //
   final Map<List<Player>, Integral?> currentIntegrals = {};
@@ -66,21 +62,15 @@ class MatchState extends State<Match> {
 
   void assignIntegrals() {
     List<Integral> assignedIntegrals = [];
-    if (playedIntegrals.isNotEmpty) {
-      for (List<Player> pairing in currentIntegrals.keys) {
-        playedIntegrals[pairing]!.add(currentIntegrals[pairing]!);
-        widget.integrals[currentDifficulty]!.remove(currentIntegrals[pairing]);
-        currentIntegrals[pairing]!.played = true;
-      }
-    } else {
-      for (List<Player> pairing in widget.pairings) {
-        playedIntegrals[pairing] = [];
-        currentIntegrals[pairing] = null;
-      }
-    }
-
     for (List<Player> pairing in remainingPairings) {
       int idx = 0;
+      //
+      // If all the integrals at a particular level of difficult have been exhausted
+      // then should go down one level of difficulty
+      //
+      if (widget.integrals[currentDifficulty]!.isEmpty) {
+        currentDifficulty = reduceDifficulty(currentDifficulty);
+      }
       while (idx < widget.integrals[currentDifficulty]!.length) {
         Integral currentIntegral = widget.integrals[currentDifficulty]![idx];
         //
@@ -92,6 +82,7 @@ class MatchState extends State<Match> {
               pairing[1].year == Years.year13.year &&
               pairing[1].studiesFM) {
             currentIntegrals[pairing] = currentIntegral;
+            currentIntegral.played = true;
             assignedIntegrals.add(currentIntegral);
             widget.integrals[currentDifficulty]!.removeAt(idx);
             break;
@@ -100,21 +91,27 @@ class MatchState extends State<Match> {
         //
         // Assigns Year 12 integral only if both players in Year 12
         //
-        else if (currentIntegral.years == Years.year12.year) {
+        else if (currentIntegral.years == "12") {
           if (pairing[0].year == Years.year12.year &&
               pairing[1].year == Years.year12.year) {
             currentIntegrals[pairing] = currentIntegral;
+            currentIntegral.played = true;
             assignedIntegrals.add(currentIntegral);
             widget.integrals[currentDifficulty]!.removeAt(idx);
             break;
           }
         } else {
           currentIntegrals[pairing] = currentIntegral;
+          currentIntegral.played = true;
           assignedIntegrals.add(currentIntegral);
           widget.integrals[currentDifficulty]!.removeAt(idx);
           break;
         }
         idx += 1;
+        if (idx == widget.integrals[currentDifficulty]!.length) {
+          currentDifficulty = reduceDifficulty(currentDifficulty);
+          idx = 0;
+        }
       }
     }
     widget.addUsedIntegral(
@@ -140,8 +137,12 @@ class MatchState extends State<Match> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Math.tex(rawIntegral[0],
-                mathStyle: MathStyle.display, textStyle: integralTextStyle)
+            Flexible(
+                child: FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: Math.tex(rawIntegral[0],
+                        mathStyle: MathStyle.display,
+                        textStyle: integralTextStyle)))
           ]);
     } else if (rawIntegral.length == 2) {
       //
@@ -149,10 +150,18 @@ class MatchState extends State<Match> {
       //
       integralDisplays =
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-        Math.tex(rawIntegral[0],
-            mathStyle: MathStyle.display, textStyle: integralTextStyle),
-        Math.tex(rawIntegral[1],
-            mathStyle: MathStyle.display, textStyle: integralTextStyle)
+        Flexible(
+            child: FittedBox(
+                fit: BoxFit.fitWidth,
+                child: Math.tex(rawIntegral[0],
+                    mathStyle: MathStyle.display,
+                    textStyle: integralTextStyle))),
+        Flexible(
+            child: FittedBox(
+                fit: BoxFit.fitWidth,
+                child: Math.tex(rawIntegral[1],
+                    mathStyle: MathStyle.display,
+                    textStyle: integralTextStyle)))
       ]);
     } else if (rawIntegral.length == 3) {
       //
@@ -165,13 +174,23 @@ class MatchState extends State<Match> {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Math.tex(rawIntegral[0], textStyle: integralTextStyle),
-                  Math.tex(rawIntegral[1], textStyle: integralTextStyle)
+                  Flexible(
+                      child: FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child: Math.tex(rawIntegral[0],
+                              textStyle: integralTextStyle))),
+                  Flexible(
+                      child: FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child: Math.tex(rawIntegral[1],
+                              textStyle: integralTextStyle)))
                 ])),
         const Spacer(flex: 1),
-        Expanded(
+        Flexible(
             flex: 3,
-            child: Math.tex(rawIntegral[2], textStyle: integralTextStyle)),
+            child: FittedBox(
+                fit: BoxFit.fitWidth,
+                child: Math.tex(rawIntegral[2], textStyle: integralTextStyle))),
         const Spacer(flex: 1)
       ]);
     } else {
@@ -185,8 +204,16 @@ class MatchState extends State<Match> {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Math.tex(rawIntegral[0], textStyle: integralTextStyle),
-                  Math.tex(rawIntegral[1], textStyle: integralTextStyle),
+                  Flexible(
+                      child: FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child: Math.tex(rawIntegral[0],
+                              textStyle: integralTextStyle))),
+                  Flexible(
+                      child: FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child: Math.tex(rawIntegral[1],
+                              textStyle: integralTextStyle))),
                 ])),
         const Spacer(flex: 1),
         Expanded(
@@ -194,8 +221,16 @@ class MatchState extends State<Match> {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Math.tex(rawIntegral[2], textStyle: integralTextStyle),
-                  Math.tex(rawIntegral[3], textStyle: integralTextStyle),
+                  Flexible(
+                      child: FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child: Math.tex(rawIntegral[2],
+                              textStyle: integralTextStyle))),
+                  Flexible(
+                      child: FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child: Math.tex(rawIntegral[3],
+                              textStyle: integralTextStyle))),
                 ])),
         const Spacer(flex: 1)
       ]);
@@ -214,7 +249,7 @@ class MatchState extends State<Match> {
     } else if (widget.round == Rounds.finalRound.round) {
       timeLimit = 300;
     } else {
-      timeLimit = 150;
+      timeLimit = 180;
     }
   }
 
@@ -225,16 +260,28 @@ class MatchState extends State<Match> {
     });
   }
 
-  void reduceDifficulty() {
-    if (currentDifficulty == "Hard") {
-      currentDifficulty = "Medium";
+  String reduceDifficulty(String difficulty) {
+    if (difficulty == "Final") {
+      return "Hard";
+    } else if (difficulty == "Hard") {
+      return difficulty = "Medium";
     } else if (currentDifficulty == "Medium") {
-      currentDifficulty = "Easy";
+      return currentDifficulty = "Easy";
+    } else {
+      return "Easy";
     }
   }
 
   void updateMatch(Map<List<Player>, Player?> results) {
     numIntegralsPlayed += 1;
+    if (numIntegralsPlayed > widget.numIntegrals) {
+      //
+      // Reduces difficulty every three integrals in a tiebreak
+      //
+      if (numIntegralsPlayed % 3 == 0) {
+        currentDifficulty = reduceDifficulty(currentDifficulty);
+      }
+    }
     List<List<Player>> newCompleted = [];
     List<Player> newWinners = [];
     for (List<Player> pair in results.keys) {
@@ -247,15 +294,9 @@ class MatchState extends State<Match> {
         //
         if (numIntegralsPlayed > widget.numIntegrals) {
           //
-          // Player wins if they have just one more win than the
+          // Player wins if they have just one more win than the other player
           //
           if (playerWins[winner]! > playerWins[loser]!) {
-            //
-            // Reduces difficulty every three integrals
-            //
-            if (numIntegralsPlayed % 3 == 0) {
-              reduceDifficulty();
-            }
             loser.lastRound = widget.round;
             //
             // Removes pairing to show only integrals for pairs still in play
@@ -279,6 +320,23 @@ class MatchState extends State<Match> {
             currentIntegrals.remove(pair);
             newWinners.add(winner);
           }
+        }
+      } else if (numIntegralsPlayed >= widget.numIntegrals) {
+        Player? winner;
+        Player? loser;
+        if (playerWins[pair[0]]! > playerWins[pair[1]]!) {
+          winner = pair[0];
+          loser = pair[1];
+        } else if (playerWins[pair[0]]! < playerWins[pair[1]]!) {
+          winner = pair[1];
+          loser = pair[0];
+        }
+        if (winner != null) {
+          loser!.lastRound = widget.round;
+          remainingPairings.remove(pair);
+          newCompleted.add(pair);
+          currentIntegrals.remove(pair);
+          newWinners.add(winner);
         }
       }
     }

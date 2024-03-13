@@ -1,6 +1,96 @@
+\int_{e}^{\infty}\!\frac{\ln x-1}{x^2}\mathrm{d}x,\frac{1}{e},Medium,13FM
+\int\!\frac{3\cos x}{\left(1+\sin x\right)^3}\mathrm{d}x,-\frac{3}{2\left(1+\sin x\right)^2}+c,Easy,all
+\int\!\frac{\left(\ln x\right)^{2024}}{x}\;\mathrm{d}x,\frac{1}{2025}\left(\ln x\right)^{2025}+c,Easy,all
+\int_{\frac{\pi}{2}}^{\frac{3\pi}{2}}\!\frac{3\sqrt2}{4}\sin2x\sqrt{1+\cos2x}\mathrm{d}x,0,Medium,all
+\int\!\frac{2x}{x^2+4x+4}\;\mathrm{d}x,\ln\left(x^2+4x+4\right)+\frac{4}{x+2}+c,Medium,all
+\int_1^{\int_1^{\int_1^{\ldots}\!2x{d}x}\!2x{d}x}\!2x\mathrm{d} x,\frac{1\pm\sqrt5}{2},Hard,all
+\int\!2^{\ln x}\;\mathrm{d}x,\frac{1}{\ln2+1}x^{\ln2+1}+c,Easy,all
+\int\frac{\sqrt{\tan x}}{\sin2x}\mathrm{d} x,\sqrt{\tan x}+c,Hard,all
+\int_0^{\infty}\!\frac{4}{e^{-\pi x}+e^{\pi x}}\mathrm{d} x,1,Medium,13FM
+\int_0^{\frac12}\!1+x+x^2+x^3+\ldots\mathrm{d} x,\ln2,Easy,all
+\int_0^{\frac{\pi}{2}}\!x^{\frac{1}{2\log_{10}x}}\sin x\ \mathrm{d}x,\sqrt{10},Medium,all
+\int\!\frac{\sqrt{x}}{x^3+1}\mathrm{d}x,\frac23\arctan x^{\frac32}+c,Easy,13FM
+\int_0^{4\pi}\!\left(\sinh x+\cosh x\right)^{506}\mathrm{d}x,\frac{e^{2024\pi}-1}{506},Easy,13FM
+\int\!\frac{1}{x\ln x+3x}\;\mathrm{d}x,\ln\left(\ln x+3\right)+c,Easy,all
+\int_{}^{}\!\frac{\left(x+1\right)^{\ln\left(x-1\right)}}{\left(x-1\right)^{\ln\left(x+1\right)}}\mathrm{d}x,x+c,Medium,all
+\int\!\frac{x^{2024}-1}{x^{506}-1}\mathrm{d}x,\frac{1}{1519}x^{1519}+\frac{1}{1013}x^{1013}+\frac{1}{507}x^{507}+c,Easy,all
+\int\!\frac{\mathrm{d} x}{\cot x\ln\left(\cos x\right)},-\ln\left(\ln\left(\cos x\right)\right)+c,Medium,all
+\int_{-\ln5}^{e^2}\!\!e^{\left|x\right|}\mathrm{d} x,e^{e^2}+3,Easy,all
+\int\sqrt{\frac{x^{\frac{x}{\ln x}}+1}{e^{x}}}\mathrm{d} x,-2\sqrt{1+e^{-x}}+\ln\left(\frac{1+\sqrt{1+e^{-x}}}{1-\sqrt{1+e^{-x}}}\right)+c,Final,all
+\int_9^{t^2}\!\frac{\mathrm{d}x}{x^{0.9999999\ldots}},2\ln\left(\frac{t}{3}\right),Easy,all
+\int\!e^{x+e^{x}}+e^{x-e^{x}}\;\mathrm{d}x,e^{e^{x}}-e^{-e^{x}}+c,Hard,all
+\int_0^{2024\pi}\!\left\vert\sin\left(2024x\right)\right\vert\mathrm{d} x,4048,Hard,all
+\int\!\ln\left(x^3e^5\right)-\sin^2x\;\mathrm{d}x,3x\ln\left|x\right|+\frac32x+\frac14\sin2x+c,Easy,all
+\int_0^{\pi}\!\!\sqrt{1+\sin x}\;dx,4,Medium,all
+\int_{-\frac{\pi}{4}}^{\frac{\pi}{4}}\!\sec^4x\ \mathrm{d}x,\frac83,Hard,all
+\int_0^{\frac{\pi}{3}}\!\!\sqrt{1+\cos x}\mathrm{d} x,\sqrt2,Medium,all
+\int_0^{\frac{\pi}{4}}\!\!\frac{2}{\cos2x+1}\mathrm{d} x,\tan x+c,Easy,all
+\int\!\frac{\mathrm{d}x}{x\cos\left(\ln x\right)},\ln\left(\sec\left(\ln x\right)+\tan\left(\ln x\right)\right)+c,Easy,all
+\int\!\frac{\ln\left(x+1\right)}{x+1}\mathrm{d}x,\frac12\left(\ln\left(x+1\right)\right)^2+c,Easy,all
+\int\!\ln\left(e^{e^{x}}\right)\sin\left(e^{x}\right)\cos\left(e^{x}\right)\;\mathrm{d}x,-\frac14\cos\left(2e^{x}\right)+c,Easy,all
+\int\frac{\tan x}{\cos x}\mathrm{d}x,\sec x+c,Easy,all
+\int\!\frac{\cos x}{e^{\sin x}}\;\mathrm{d}x,-e^{-\sin x}+c,Easy,all
+\int_7^{42}\!\frac{x+3}{x-6}\mathrm{d} x,35+18\ln6,Easy,all
+\int\!\frac{e^{x}+1}{e^{x+1}+ex}\;\mathrm{d}x,\frac{1}{e}\ln\left(e^{x+1}+ex\right)+c,Easy,all
+\int\!\frac{e^{4x}}{e^{4x}+5}\;\mathrm{d}x,\frac14\ln\left(e^{4x}+5\right)+c,Easy,all
+\int\!\frac{x^3}{x^8+1}\;\mathrm{d}x,\frac14\arctan\left(x^4\right)+c,Easy,13FM
+\int\!\frac{1}{1+\sqrt{x}}\;\mathrm{d}x,2\sqrt{x}-2\ln\left(1+\sqrt{x}\right)+c,Medium,all
+\int_0^{\infty}\!\frac{1}{\left(x+\frac{1}{x}\right)^2}\mathrm{d} x,\frac{\pi}{4},Final,13FM
+\int\!\sin\left(\sin\left(\sin\left(\sin\left(\ldots\right)\right)\right)\right)\;\mathrm{d}x,c,Easy,all
+\int_{\sqrt3}^{\infty}\frac{\lim_{x\to\infty}\left\lbrack x\sin\left(\frac{1}{x}\right)\right\rbrack}{1+x^2}\mathrm{d}x,\frac{\pi}{6},Hard,13FM
+\int\!\sqrt{\frac{x}{1-x^3}}\;\mathrm{d}x,\frac23\arcsin\left(x\sqrt{x}\right)+c,Medium,13FM
+\int_0^1\!\frac{\arctan x}{1+\frac{1}{x^2}}\mathrm{d} x,\frac{\pi}{4}-\frac{\pi^2}{32}-\frac12\ln2,Final,13FM
+\int_0^1\!x\ln\left(\frac{1}{x^2+1}\right)\mathrm{d} x,\frac12-\ln2,Medium,all
+\int\!\sqrt{e^{2x}+1}\;\mathrm{d}x,\sqrt{e^{2x}+1}+\frac12\ln\left(\frac{\sqrt{e^{2x}+1}-1}{\sqrt{e^{2x}+1}+1}\right)+c,Hard,all
+\int\!\sec^8x\tan x\mathrm{d}x,\frac18\sec^8x+c,Easy,all
+\int_0^{\frac{\pi}{3}}\!\!x\tan^2x\mathrm{d} x,\frac{\pi}{\sqrt3}-\ln2-\frac{\pi^2}{18},Medium,all
+\int_0^{\frac12}\!\frac{x\arcsin x}{\sqrt{1-x^2}}\mathrm{d} x,\frac12-\frac{\pi\sqrt3}{12},Medium,13FM
+\int\!\frac{\mathrm{d}x}{12+13\cos x},\frac15\ln\left(\frac{5+\tan\frac{x}{2}}{5-\tan\frac{x}{2}}\right)+c,Medium,13FM
+\int_0^{\frac{\pi}{2}}\!\sqrt{\mathrm{cosec} x-\sin x}\mathrm{d} x,2,Medium,all
+\int\;\frac{e^{x}\left(x-2\right)}{x^3}\mathrm{d}x,\frac{e^{x}}{x^2}+c,Hard,all
+\int\!\frac{1-\sin x}{1+\sin x}\;\mathrm{d}x,2\left(\tan x-\sec x\right)-x+c,Easy,all
+\int_0^1\!\left(x+1-e^{-x}\right)e^{xe^{x}}\mathrm{d} x,e^{e-1}-1,Final,all
+\int_0^{\frac{\pi}{4}}\!\left(\cos^4x-\sin^4x\right)\mathrm{d}x,\frac12,Medium,all
+\int_0^{\frac{\pi}{3}}\!\sin x\sqrt{1+\tan^2x}\mathrm{d} x,\ln2,Easy,all
+\int\!\frac{e^{\frac{1}{x}}}{x^3}\;\mathrm{d}x,e^{\frac{1}{x}}\left(1-\frac{1}{x}\right)+c,Medium,all
+\int\!\frac{x+1}{\sqrt[3]{x^2+2x+2}}\;\mathrm{d}x,\frac34\left(x^2+2x+2\right)^{\frac23}+c,Easy,all
+\int\!\frac{x^4}{1-x^2}\;\mathrm{d}x,-\frac{x^3}{3}-x+\frac12\ln\left(\frac{1+x}{1-x}\right)+c,Final,all
+\int\!\frac{x\ln x-\tan x}{x\sec x\left(\ln x\right)^2}\;\mathrm{d}x,\frac{\sin x}{\ln x}+c,Final,all
+2\int\!\arcsin x+\arccos x\;\mathrm{d}x,\pi x+c,Easy,all
+\int\sin x\ln\left(\tan x\right)\;\mathrm{d}x,-\cos x\ln\left(\tan x\right)-\ln\left(\mathrm{cosec} x+\cot x\right)+c,Medium,all
+\int\!\log_{10}\left(x+1\right)\mathrm{d}x,\frac{1}{\ln10}\left(\left(x+1\right)\ln\left(x+1\right)-\left(x+1\right)\right)+c,Easy,all
+\int\!\sqrt{x^4+x^7}\;\mathrm{d}x,\frac29\left(1+x^3\right)^{\frac32}+c,Easy,all
+\int\!\ln\left(x+\sqrt{x^2+1}\right)\;\mathrm{d}x,x\mathrm{arsinh}x-\sqrt{1+x^2}+c,Hard,13FM
+\int\!\frac{e^{2x}-1}{e^{2x}+1}\mathrm{d}x,\ln\left(e^{x}+e^{-x}\right)+c,Medium,all
+\int\!\sec^6x\;\mathrm{d}x,\frac15\tan^5x+\frac23\tan^3x+\tan x+c,Easy,all
+\int\!\frac{\pi}{\left(5x-2\right)^4}\;\mathrm{d}x,-\frac{\pi}{15\left(5x-2\right)^3}+c,Easy,all
+\int\!\frac{1}{x^4+x}\;\mathrm{d}x,-\frac13\ln\left(1+\frac{1}{x^3}\right)+c,Hard,all
+\int\!\frac{1-\tan x}{1+\tan x}\;\mathrm{d}x,\ln\left(\cos x+\sin x\right)+c,Medium,all
+\int\!x^2e^{x^3}\;\mathrm{d}x,\frac13e^{x^3}+c,Easy,all
+\int\!\tan x\ln\left(\cos x\right)\;\mathrm{d}x,-\frac12\left(\ln\left(\cos x\right)\right)^2+c,Easy,all
+\int_{\frac{1}{e}}^{e}\!\frac{\sqrt{1-\left(\ln x\right)^2}}{x}\mathrm{d} x,\frac{\pi}{2},Final,all
+\int\!\sqrt{\frac{1-x}{1+x}}\;\mathrm{d}x,\arcsin x+\sqrt{1-x^2}+c,Easy,13FM
+\int\!\frac{e^{\tan x}}{\sin^2x-1}\mathrm{d}x,-e^{\tan x}+c,Easy,all
+\int\!e^{\sqrt{x}}\;\mathrm{d}x,2\sqrt{x}e^{\sqrt{x}}-2e^{\sqrt{x}}+c,Medium,all
+\int\!\frac{\sin x}{x}+\cos x\ln x\;\mathrm{d}x,\sin x\ln x+c,Easy,all
+\int\!\frac{e^{x}}{\left(1+e^{x}\right)^2}\;\mathrm{d}x,-\frac{1}{1+e^{x}}+c,Easy,all
+\int_0^{36}\!\frac{1}{x+2\sqrt{x}}\mathrm{d} x,\ln16,Easy,all
+\int_{\frac{\pi}{4}}^{\frac{\pi}{2}}\!4x\sin2x\ \mathrm{d}x,\pi-1,Easy,all
+\int_{\ln2}^{\ln5}\!\frac{3e^{2x}}{\sqrt{e^{x}-1}}\mathrm{d} x,20,Medium,all
+\int\!\frac{1+\cos^4x}{\cos^2x}\;\mathrm{d}x,\frac12x+\frac14\sin2x+\tan x+c,Easy,all
+\int\!\sqrt{x\sqrt{x\sqrt{x}}}\;\mathrm{d}x,\frac{8}{15}x^{\frac{15}{8}}+c,Easy,all
+\int\!\frac{1}{x\left(1+\ln x\right)^3}\mathrm{d}x,-\frac{1}{2\left(1+\ln x\right)^2}+c,Easy,all
+\int\!\frac{\sqrt{1+2\tan x}}{\cos^2x}\mathrm{d}x,\frac13\left(1+2\tan x\right)^{\frac32}+c,Easy,all
+\int\!\frac{1+\sin2x}{\left(\cos x+\sin x\right)^2}\mathrm{d}x,x+c,Easy,all
+\int\!\frac{\cos x}{\sqrt{\sin x}}\mathrm{d}x,2\sqrt{\sin x}+c,Easy,all
+\int\!\left(\cos x\ln\left(\sin x^{\sin x^{\sin x}}\right)+\left(\sin x\right)^{\sin x+1}\cot x\right)\mathrm{d} x,\sin x^{\sin x}+c,Final,all
+\int\!\frac{\tan^3\left(\ln x\right)}{x}\mathrm{d}x,\frac12\tan^2\left(\ln x\right)-\ln\left(\sec\left(\ln x\right)\right)+c,Hard,all
+\int_0^{\frac{\pi}{2}}\!\frac{e^{x\sin x}}{\mathrm{cosec} x}+\frac{x\left(\cot x\right)\ e^{x\sin x+1}}{e\left(\mathrm{cosec}x\right)}\mathrm{d}x,e_{}^{\frac{\pi}{2}}-1,Final,all
+\int\!\mathrm{cosec}^2\frac{x}{2}\left(\frac{\cos2x\sec^2x+\sec^2x-\cos2x-1}{\cos^2\frac{x}{2}}\right)\mathrm{d}x,8x+c,Final,all
+\int_{-69}^{69}\!2\sqrt{4761-x^2}\mathrm{d} x,4761\pi,Medium,all
 \int_0^{\frac{\pi}{2}}\!\frac{\sin2x}{3+\cos2x}\;\mathrm{d}x,\frac12\ln2,Easy,all
 \int\sqrt[3]{2x-1}\!\;\mathrm{d}x,\frac38\left(2x-1\right)^{\frac43}+c,Easy,all
-\int_0^1\!\frac{1}{1+\sqrt{x}} dx,2-\ln4,Medium,all
+\int_0^1\!\frac{1}{1+\sqrt{x}}\mathrm{d} x,2-\ln4,Medium,all
 \int\!x\cos2x\;\mathrm{d}x,\frac12x\sin2x+\frac14\cos2x+c,Easy,all
 \int\!\frac{\sin x}{\sin2x}\;\mathrm{d}x,\frac12\ln\left|\sec x+\tan x\right|+c,Easy,all
 \int\!\sin^2x\sin2x\;\mathrm{d}x,\frac12\sin^4x+c,Medium,all
@@ -21,11 +111,11 @@
 \int\!\frac{\sin x}{\cos^3x}\;\mathrm{d}x,\frac12\tan^2x+c,Easy,all
 \int\!\frac{1}{\left(1+x^2\right)^{\frac32}}\;\mathrm{d}x,\frac{x}{\sqrt{1+x^2}}+c,Hard,13FM
 \int\!\sec^3x\;\mathrm{d}x,\frac12\ln\left|\sec x+\tan x\right|+\frac12\sec x\tan x+c,Medium,all
-\int_0^1\frac{x^2+1}{x-2} dx,\frac52-5\ln2+c,Medium,all
+\int_0^1\frac{x^2+1}{x-2}\mathrm{d} x,\frac52-5\ln2+c,Medium,all
 \int_{}^{}\!\tan^5x\ \mathrm{d}x,\ln\left|\sec x\right|+\frac14\sec^4x-\sec^2x+c,Medium,all
-\int_0^1\frac{2^{x}}{\left(2^{x}+1\right)^2} dx,\frac{1}{6\ln2},Hard,all
-\int_0^2\frac{2x}{\left(4+3x^2\right)^2} dx,\frac{1}{16},Easy,all
-\int_0^22x\sqrt{x+2} dx,\frac{32}{15}\left(2+\sqrt2\right),Easy,all
+\int_0^1\frac{2^{x}}{\left(2^{x}+1\right)^2}\mathrm{d} x,\frac{1}{6\ln2},Hard,all
+\int_0^2\frac{2x}{\left(4+3x^2\right)^2}\mathrm{d} x,\frac{1}{16},Easy,all
+\int_0^22x\sqrt{x+2}\mathrm{d} x,\frac{32}{15}\left(2+\sqrt2\right),Easy,all
 \int\!\frac{2+\ln x}{x^2}\;\mathrm{d}x,\frac{-\ln x-3}{x}+c,Hard,all
 \int\!\mathrm{cosec}^2x\cot^2x\;\mathrm{d}x,-\frac13\cot^3x+c,Easy,all
 \int\!\left(\sin x+\cos x\right)^2\;\mathrm{d}x,x-\frac12\cos2x+c,Easy,all
@@ -38,8 +128,52 @@
 \int\!\frac{x^5}{\sqrt{1-x^3}}\;\mathrm{d}x,\frac29\left(1-x^3\right)^{\frac32}-\frac23\left(1-x^3\right)^{\frac12}+c,Hard,all
 \int\!\sqrt{x}e^{\sqrt{x}}\;\mathrm{d}x,2xe^{\sqrt{x}}-4\sqrt{x}e^{\sqrt{x}}+4e^{\sqrt{x}}+c,Hard,all
 \int\!\frac{2x-2}{x^2+x}\mathrm{d}x,4\ln\left(x+1\right)-2\ln x+c,Medium,all
-\;\int_{}^{}\ln\left|\frac{1+x}{1-x}\right|\  dx,\left(1+x\right)\ln\left(1+x\right)-\left(1+x\right)+\left(1-x\right)\ln\left(1-x\right)-\left(1-x\right)+c,Hard,all
+\;\int_{}^{}\ln\left|\frac{1+x}{1-x}\right|\ \mathrm{d} x,\left(1+x\right)\ln\left(1+x\right)-\left(1+x\right)+\left(1-x\right)\ln\left(1-x\right)-\left(1-x\right)+c,Hard,all
 \int\!\frac{\cos^2x}{1+\sin x}\;\mathrm{d}x,x+\cos x+c,Medium,all
 \int\!x\sec^24x\;\mathrm{d}x,\frac14x\tan4x+\frac{1}{16}\ln\left|\cos4x\right|+c,Medium,all
-\int_{-1}^0\frac{e^{2x}}{2-e^{2x}} dx,\frac12\ln\left(2-e^{-2}\right),Medium,all
+\int_{-1}^0\frac{e^{2x}}{2-e^{2x}}\mathrm{d} x,\frac12\ln\left(2-e^{-2}\right),Medium,all
 \int\!\frac{1-4x}{x\left(4x-\ln x\right)^{\frac32}}\;\mathrm{d}x,\frac{2}{\sqrt{4x-\ln x}}+c,Hard,all
+\int \sin{4x} \cos^2{4x} \ dx,-\frac{1}{12} \cos^3{4x} + c,Easy,all
+\int e^x \sin{2x} \cos{2x} \ dx,\frac{1}{34}(\sin{4x}-4\cos{4x}) + c,Easy,all
+\int 16x^2 e^{x^3} \ dx,\frac{16}{3}e^{x^3} + c,Easy,all
+\int \frac{e^x}{\sqrt{e^{2x} - 1}} \ dx,\mathrm{arcosh}(e^{x})+c,Medium,13FM
+\int \sqrt{e^{4x} - 1} \ dx,\frac{1}{2}\left(\sqrt{e^{4x} - 1}-\arctan(\sqrt{e^{4x}-1})\right)+c,Hard,13FM
+\int \frac{8x + 2}{2x^2 + x + 1} \ dx,2\ln{(2x^2+x+1)} + c,Easy,all
+\int \cosh^2{x} + 2\cosh^2{x}\sinh^2{x} - \sinh^2{x} - 2\sinh^3{x} \ dx,\frac{1}{2} \sinh{(2x)} + c,Hard,13FM
+\int \frac{e^{2x} + e^{-2x}}{4} dx,\frac{1}{4}\sinh{(2x)} + c,Easy,13FM
+\int \sqrt{1 + \sqrt{1 - x^2}} dx,\frac{2x\sqrt{1-x^2} + 2}{3\sqrt{\sqrt{1-x^2} + 1}} + c,Final,all
+\int \frac{(2-x)(2+x)}{(x^3 - 12x + 6)^2} dx,\frac{1}{3x^3-36x+18} + c,Medium,all
+\int \frac{8x}{1 + 2x^2} dx,2\ln{(2x^2+1)} + c,Easy,all
+\int \frac{3 - x\csc{x}}{x} dx,3\ln\left|{x}\right|-\ln{\left|\csc{x}+\cot{x}\right|}+c,Easy,all
+\int \frac{1}{\sqrt{1-x} + \sqrt{1+x}} dx,-\sqrt{1-x}+\sqrt{x + 1}+\mathrm{artanh}(\sqrt{1-x})-\mathrm{artanh}(\sqrt{x + 1})+c,Final,13FM
+\int x^4e^{x^5} \sec{e^{x^5}\tan{e^{x^5}}} dx,\frac{1}{5} \sec{(e^{x^5})} + c,Easy,all
+\int4\tan^2{x}+1\ dx,4\tan{x} - 3x + c,Easy,all
+\int \sec{x}(\csc{x} + 1) dx,\ln{|\csc{x} + \cot{x}|} + \ln{|\sec{x}|} + c,Easy,all
+\int \frac{e^{\sqrt{1+x}}}{\sqrt{1+x}} dx,2e^{\sqrt{1+x}} + c,Easy,all
+\int \frac{4x+2}{x^2 + x - 6} dx,2\ln{|x^2+x-6|} + c,Easy,all
+\int \frac{1+3x}{2x^2 + 2x - 12} dx,\frac{7}{10} \ln{|2-x|} + \frac{4}{5} \ln{|x+3|} + c,Medium,all
+\int 6\csc^2{2x}\cot{2x} dx,-\frac{3}{2} \csc^2{(2x)} + c,Easy,all
+\int3\sin{2x\ }e^{\sin^2{x}}dx,3e^{\sin^2{x}} + c,Medium,all
+\int (4x - 1)^4 dx,-\frac{1}{20} (1-4x)^5 + c,Easy,all
+\int (x+1)(2x^2+4x)^3 dx,(x^2+2x)^4 + c,Easy,all
+\int \frac{3x}{(4+2x^2)^{\frac{1}{3}}} dx,\frac98\left(2x^2+4\right)^{\frac23}+c,Easy,all
+\int \frac{\sin{( \ln{(1+x)} )}}{1+x} \ dx,-\cos{(\ln{(x+1)})} + c,Medium,all
+\int\sec{(\arctan{(3x)})}\ dx,\frac{1}{2}x\sqrt{9x^2+1}+\frac{1}{6}\mathrm{arsinh}(3x)+c,Hard,13FM
+\int \frac{4}{2x^2 + 3x + 1} dx,4\ln\left|\frac{2x+1}{x+1}\right|+c,Easy,all
+\int \frac{1}{x^2 + 2x + 2} dx,\arctan{(x + 1)} + c,Easy,13FM
+\int \frac{2}{x\sqrt{x}} \ dx,-\frac{4}{\sqrt{x}} + c,Easy,all
+\int \frac{1}{x^4 + 4} \ dx,\frac{1}{16} (-\ln{(x^2 - 2x + 2)} + \ln{(x^2 + 2x + 2)} - 2\arctan{(1 - x)} + 2\arctan{(x + 1)}) + c,Hard,all
+\int4\arctan\left(\frac{x}{2}\right)\ dx,4x \arctan(\frac{x}{2}) -4\ln{(x^2+4)} + c,Easy,13FM
+\int \frac{3\sin{x}}{2\cos{x} + 2} dx,-\frac{3}{2} \ln{(2\cos{x} + 2)} + c,Easy,all
+\int4\ \mathrm{cosec}{\left(\frac{x}{3}\right)}\cot\left(\frac{x}{3}\right)\ dx,-12\mathrm{cosec}{\left(\frac{x}{3}\right)}+c,Easy,all
+\int \frac{6\sin{x}\cos{x}}{5\cos{(2x)} + 3} dx,-\frac{3}{10}\ln{\left|5\cos{(2x)}+3\right|}+c,Medium,all
+\int x\sin{(3x)}\ dx,\frac{1}{9}\left(\sin{(3x)}-3x\cos{(3x)}\right)+c,Easy,all
+\int x^3\arctan{(x)}dx,\frac{1}{12}\left(3\left(x^4-1\right)\arctan\left(x\right)-x\left(x^2-3\right)\right)+c,Medium,13FM
+\int \frac{\tan^3{x}\sec^2{x}}{\sqrt{\tan^4{x} + 3}} dx,\frac{1}{2} \sqrt{\tan^4{x} + 3} + c,Easy,all
+\int 4x^3 + 2x\sqrt{x} + \frac{1}{2x} dx,\frac{4}{5}x^{\frac{5}{2}}+x^4+\frac{1}{2}\ln\left|{x}\right|+c,Easy,all
+\int\sin{(1+x)}\cos{(1-x)\ }dx,\frac{1}{4}(2x\sin{2} - \cos{(2x)}) + c,Hard,all
+\int \sqrt{(\sec{x} + 1)(\sec{x} - 1)} dx,\ln{(\sec{x})} + c,Easy,all
+\int \frac{\cos{(\arcsin{x})}}{\sqrt{1-x^2}} dx,x + c,Medium,all
+\int_{\frac12}^2\!\frac{\ln^{2023}x}{x^2+2024x+1}\ \mathrm{d}x,0,Final,all
+\int\!\frac{\sin^2x+\sin2x+1}{e^{-x}+\sin^2x+1}\;\mathrm{d}x,x+\ln\left(e^{-x}+\sin^2x+1\right)+c,Final,all
+\int_0^{\frac{\pi}{4}}\!\frac{3\sin x+2\cos x}{4\sin x+3\cos x}\ \mathrm{d}x,-\frac{1}{25}\ln\left(\frac{7}{3\sqrt2}\right)+\frac{9}{50}\pi,Final,all

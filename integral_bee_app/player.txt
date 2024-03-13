@@ -1,6 +1,16 @@
-Dinu Filip,Beths Grammar School,Year 13,true
-Vlad Filip,Beths Grammar School,Year 13,true
-Elia Battaglia,Beths Grammar School,Year 13,true
-Alex Litchev,Beths Grammar School,Year 13,true
-Peter Tran,Beths Grammar School,Year 13,true
-Samyam Pandey,Beths Grammar School,Year 13,true
+Edmund Keeling,Beths Grammar School,12,true
+Vladimir Filip,Beths Grammar School,13,true
+Miles Stewart,Beths Grammar School,12,true
+Derek Jimenez,Beths Grammar School,12,true
+Joel Fernandes,Beths Grammar School,12,true
+Alexander Litchev,Beths Grammar School,13,true
+Daiyan Bhuiyan,Beths Grammar School,13,true
+Bernard Poh,Beths Grammar School,13,true
+Samyam Pandey,Beths Grammar School,13,true
+Jeron Justin,Beths Grammar School,13,true
+Roy Le,Beths Grammar School,13,false
+Anish Baskaran,Beths Grammar School,13,true
+Joel Hamilton,Beths Grammar School,12,true
+Emir Hamad,Beths Grammar School,12,true
+Clayton Wambu,Beths Grammar School,12,true
+Jobayer Khan,Beths Grammar School,13,true

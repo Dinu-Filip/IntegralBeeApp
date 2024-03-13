@@ -64,7 +64,8 @@ class RoundState extends State<Round> {
   final Map<String, List<Integral>> remainingIntegrals = {
     "Easy": [],
     "Medium": [],
-    "Hard": []
+    "Hard": [],
+    "Final": [],
   };
   //
   // Stores names of participating schools
@@ -141,7 +142,7 @@ class RoundState extends State<Round> {
     // to use in the tournament
     //
     for (String d in splitData) {
-      List<String> intData = d.split(",");
+      List<String> intData = d.trim().split(",");
       //
       // Checks that any integrals have not already been shown if tournament loaded
       // from previous
@@ -219,8 +220,12 @@ class RoundState extends State<Round> {
       //
       // Remaining players receive bye to second round
       //
-      for (int j = totalRound1; j <= totalPlayers - 1; j += 1) {
-        matches[1].add([initialPlayers[j]]);
+      for (int j = totalRound1; j <= totalPlayers - 1; j += 2) {
+        if (j == totalPlayers - 1) {
+          matches[1].add([initialPlayers[j]]);
+        } else {
+          matches[1].add([initialPlayers[j], initialPlayers[j + 1]]);
+        }
       }
     }
     matches[0] = initialPairings;
@@ -246,7 +251,7 @@ class RoundState extends State<Round> {
     } else if (round == Rounds.finalRound.round) {
       return 5;
     } else {
-      return 0.1;
+      return 2.5;
     }
   }
 
@@ -257,7 +262,7 @@ class RoundState extends State<Round> {
     } else if (roundName == Rounds.semifinalRound.round) {
       return "Hard";
     } else if (roundName == Rounds.finalRound.round) {
-      return "Hard";
+      return "Final";
     } else {
       return "Easy";
     }
@@ -393,7 +398,7 @@ class RoundState extends State<Round> {
       }
     }
 
-    if (currentRound == rounds.length - 1) {
+    if (winners.isNotEmpty && currentRound == rounds.length - 1) {
       //
       // Checks if the final has finished
       //
@@ -427,7 +432,9 @@ class RoundState extends State<Round> {
         schoolPoints[winner.school] = schoolPoints[winner.school]! + 5;
       }
     }
-    updateCompPairData();
+    if (pairings.isNotEmpty) {
+      updateCompPairData();
+    }
   }
 
   void endMatch(List<List<Player>> pairings, List<Player> winners,
@@ -494,7 +501,7 @@ class RoundState extends State<Round> {
     return matchJSON;
   }
 
-  void updateCompRoundData() async {
+  Future<int> updateCompRoundData() async {
     var file = File("compData.json");
     String jsonString = await file.readAsString();
     Map<String, dynamic> jsonContent = json.decode(jsonString);
@@ -507,6 +514,7 @@ class RoundState extends State<Round> {
 
     jsonString = json.encode(jsonContent);
     await file.writeAsString(jsonString);
+    return 1;
   }
 
   Future<int> clearCompData() async {

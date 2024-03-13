@@ -19,6 +19,7 @@ class IntegralSummaryState extends State<IntegralSummary> {
   Map<List<Player>, Player?> rawResults = {};
   TextStyle nameStyle = const TextStyle(fontSize: 25);
   bool initialised = false;
+  List<ScrollController> scrollers = [];
 
   List<Widget> generatePlayerSummary() {
     List<List<Player>> pairs = widget.integralData.keys.toList();
@@ -41,14 +42,19 @@ class IntegralSummaryState extends State<IntegralSummary> {
       Player player2 = currentPair[1];
 
       String answer = widget.integralData[currentPair]!.answer;
-
+      scrollers.add(ScrollController());
       integralSummaries.add(Padding(
           padding: const EdgeInsets.only(top: 20, bottom: 20),
           child: Row(children: [
             Expanded(
                 flex: 3,
-                child:
-                    Math.tex(answer, textStyle: const TextStyle(fontSize: 45))),
+                child: Scrollbar(
+                    controller: scrollers.last,
+                    child: SingleChildScrollView(
+                        controller: scrollers.last,
+                        scrollDirection: Axis.horizontal,
+                        child: Math.tex(answer,
+                            textStyle: const TextStyle(fontSize: 45))))),
             Expanded(
                 flex: 1,
                 child: ListTile(
@@ -102,7 +108,7 @@ class IntegralSummaryState extends State<IntegralSummary> {
       const StageTitle2(text: "Answers and results"),
       Expanded(
           child: FractionallySizedBox(
-              widthFactor: 0.75,
+              widthFactor: 0.80,
               child: ListView(children: generatePlayerSummary()))),
       Padding(
           padding: const EdgeInsets.only(bottom: 50),

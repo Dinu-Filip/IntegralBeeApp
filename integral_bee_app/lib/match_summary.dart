@@ -61,13 +61,17 @@ class MatchSummary extends StatelessWidget {
                 child: Text(
                     textAlign: TextAlign.center,
                     style: textFieldStyle,
-                    "Well done to ${winnerNames.sublist(0, winnerNames.length - 1).join(", ")} and ${winnerNames[winnerNames.length - 1]} who move on to the next round!")),
+                    winnerNames.length == 1
+                        ? "Well done to ${winnerNames[0]} who moves on to the next round!"
+                        : "Well done to ${winnerNames.sublist(0, winnerNames.length - 1).join(", ")} and ${winnerNames[winnerNames.length - 1]} who move on to the next round!")),
             Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 10),
                 child: Text(
                     textAlign: TextAlign.center,
                     style: textFieldStyle,
-                    "Thank you ${loserNames.sublist(0, loserNames.length - 1).join(", ")} and ${loserNames[loserNames.length - 1]} for taking part!"))
+                    loserNames.length == 1
+                        ? "Thank you ${loserNames[0]} for taking part!"
+                        : "Thank you ${loserNames.sublist(0, loserNames.length - 1).join(", ")} and ${loserNames[loserNames.length - 1]} for taking part!"))
           ])),
       Padding(
           padding: const EdgeInsets.only(bottom: 50, top: 20),

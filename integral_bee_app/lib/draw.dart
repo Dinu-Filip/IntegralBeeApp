@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:integral_bee_app/player.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:integral_bee_app/standard_widgets.dart';
 
 class Draw extends StatefulWidget {
   final List<List<dynamic>> draw;
@@ -13,6 +14,7 @@ class Draw extends StatefulWidget {
 
 class DrawState extends State<Draw> {
   static const TextStyle labelStyle = TextStyle(fontSize: 18);
+  BoxConstraints bracketConstraints = const BoxConstraints(minHeight: 1000);
   final List<Widget> brackets = [];
 
   List<dynamic> orderPairs() {
@@ -26,8 +28,8 @@ class DrawState extends State<Draw> {
     for (int i = widget.draw.length - 1; i >= 1; i--) {
       if (widget.draw[i].isNotEmpty) {
         if (!latestAdded) {
-          orderedDraw.add(widget.draw[i]);
-          lastRound = widget.draw[i];
+          orderedDraw.add(widget.draw[i].map((pair) => pair).toList());
+          lastRound = widget.draw[i].map((pair) => pair).toList();
           latestAdded = true;
         }
         List<Player> roundPlayers = [];
@@ -64,18 +66,21 @@ class DrawState extends State<Draw> {
         lastRound = prevRoundPairs;
       }
     }
-    if (orderedDraw[0].length != widget.draw[0].length) {
-      for (List<Player> pair in widget.draw[0]) {
-        if (!orderedDraw[0].contains(pair)) {
-          orderedDraw[0].add(pair);
-        }
-      }
+    if (orderedDraw.isEmpty) {
+      orderedDraw.add(widget.draw[0].map((pair) => pair).toList());
     }
     //
-    // When no rounds have been played; still on first round
+    // When still on first round
     //
-    if (orderedDraw.isEmpty) {
-      orderedDraw.add(widget.draw[0]);
+    bool firstRoundPlayed = true;
+    for (List<Player> pair in widget.draw[0]) {
+      if (!orderedDraw[0].contains(pair)) {
+        orderedDraw[0].add(pair);
+        firstRoundPlayed = false;
+      }
+    }
+    if (!firstRoundPlayed) {
+      orderedDraw[1].clear();
     }
     return orderedDraw;
   }
@@ -102,7 +107,7 @@ class DrawState extends State<Draw> {
         if (draw[i][j].length == 1) {
           Player player1 = draw[i][j][0];
           pairings.add(Expanded(
-              flex: 1,
+              flex: 2,
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -111,7 +116,7 @@ class DrawState extends State<Draw> {
                         player1.name,
                         style: labelStyle)
                   ])));
-          lines.add(const Spacer(flex: 1));
+          lines.add(const Spacer(flex: 2));
         } else {
           Player player1 = draw[i][j][0];
           pairings.add(Expanded(
@@ -137,7 +142,8 @@ class DrawState extends State<Draw> {
               flex: 2,
               child: Padding(
                   padding: const EdgeInsets.only(top: 5, bottom: 5),
-                  child: SvgPicture.asset("assets/bracket.svg"))));
+                  child: SvgPicture.asset("assets/bracket.svg",
+                      fit: BoxFit.fitHeight))));
         }
       }
       brackets.add(
@@ -152,12 +158,19 @@ class DrawState extends State<Draw> {
       createBrackets(context);
     }
     return Column(children: [
+      const StageTitle2(text: "Tournament draw"),
+      const SizedBox(height: 20),
       Expanded(child: Row(children: brackets)),
-      TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text("Go back"))
+      const SizedBox(height: 20),
+      SizedBox(
+          width: 400,
+          height: 50,
+          child: TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Go back", style: TextStyle(fontSize: 30)))),
+      const SizedBox(height: 20)
     ]);
   }
 }

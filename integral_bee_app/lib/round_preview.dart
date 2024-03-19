@@ -27,7 +27,9 @@ class RoundPreview extends StatefulWidget {
 class RoundPreviewState extends State<RoundPreview> {
   static const List<String> schools = ["Beths Grammar School"];
   static const Map<String, String> schoolCode = {
-    "Beths Grammar School": "Beths"
+    "Beths Grammar School": "Beths",
+    "St Olave's Grammar School": "Olave's",
+    "Townley Grammar School": "Townley"
   };
 
   @override

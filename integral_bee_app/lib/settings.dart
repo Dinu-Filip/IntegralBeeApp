@@ -8,7 +8,9 @@ enum Rounds {
 }
 
 enum Schools {
-  Beths("Beths Grammar School");
+  Beths("Beths Grammar School"),
+  StOlaves("St Olave's Grammar School"),
+  Townley("Townley Grammar School");
 
   final String schoolName;
   const Schools(this.schoolName);

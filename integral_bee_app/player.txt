@@ -4,13 +4,14 @@ Miles Stewart,Beths Grammar School,12,true
 Derek Jimenez,Beths Grammar School,12,true
 Joel Fernandes,Beths Grammar School,12,true
 Alexander Litchev,Beths Grammar School,13,true
-Daiyan Bhuiyan,Beths Grammar School,13,true
-Bernard Poh,Beths Grammar School,13,true
-Samyam Pandey,Beths Grammar School,13,true
-Jeron Justin,Beths Grammar School,13,true
-Roy Le,Beths Grammar School,13,false
-Anish Baskaran,Beths Grammar School,13,true
-Joel Hamilton,Beths Grammar School,12,true
-Emir Hamad,Beths Grammar School,12,true
-Clayton Wambu,Beths Grammar School,12,true
+Daiyan Bhuiyan,St Olave's Grammar School,13,true
+Bernard Poh,St Olave's Grammar School,13,true
+Samyam Pandey,St Olave's Grammar School,13,true
+Jeron Justin,St Olave's Grammar School,13,true
+Roy Le,St Olave's Grammar School,13,false
+Anish Baskaran,St Olave's Grammar School,13,true
+Joel Hamilton,Townley Grammar School,12,true
+Emir Hamad,Townley Grammar School,12,true
+Clayton Wambu,Townley Grammar School,12,true
 Jobayer Khan,Beths Grammar School,13,true
+Ovie Ogberahwe,Beths Grammar School,13,true

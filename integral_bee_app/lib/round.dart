@@ -70,8 +70,8 @@ class RoundState extends State<Round> {
   //
   // Stores names of participating schools
   //
-  final List<String> schools =
-      Schools.values.map((school) => school.schoolName).toList();
+  final Map<String, List<Player>> schools = {};
+
   //
   // Stores whether attributes have been initialised for tournament
   //
@@ -88,6 +88,10 @@ class RoundState extends State<Round> {
   // Stores index of current round in matches array
   //
   int currentRound = 0;
+  //
+  // Stores the number of participants in the school with the highest number of participants
+  //
+  int maxInSchool = 0;
   //
   // Stores widget corresponding to the current stage in the tournament
   //
@@ -342,9 +346,32 @@ class RoundState extends State<Round> {
     });
   }
 
-  void initialiseSchoolScores() {
-    for (String school in schools) {
-      schoolPoints[school] = 0;
+  void initialiseSchoolData() {
+    //
+    // Initialises points for school as 0
+    //
+    if (!widget.loadFromPrevious) {
+      for (String school in Schools.values.map((school) => school.schoolName)) {
+        schoolPoints[school] = 0;
+      }
+    }
+    //
+    // Groups participants by school
+    //
+    for (Player player in participants) {
+      if (schools.keys.contains(player.school)) {
+        schools[player.school]!.add(player);
+      } else {
+        schools[player.school] = [player];
+      }
+    }
+    //
+    // Initialises maxInSchool to use when calculating number of points
+    //
+    for (List<Player> schoolPlayers in schools.values) {
+      if (schoolPlayers.length > maxInSchool) {
+        maxInSchool = schoolPlayers.length;
+      }
     }
   }
 
@@ -360,6 +387,7 @@ class RoundState extends State<Round> {
       schoolPoints = widget.schoolPoints!;
       participants = widget.participants!;
       setRounds();
+      initialiseSchoolData();
       await loadIntegrals();
       doRound();
     } else {
@@ -370,7 +398,7 @@ class RoundState extends State<Round> {
       await initialiseParticipants();
       setRounds();
       initialiseMatches();
-      initialiseSchoolScores();
+      initialiseSchoolData();
       String roundName = rounds[currentRound];
       currentStage = RoundPreview(
           round: roundName,
@@ -429,12 +457,24 @@ class RoundState extends State<Round> {
         //
         // Assigns points to school of winning player
         //
-        schoolPoints[winner.school] = schoolPoints[winner.school]! + 5;
+        assignPoints(winner.school);
       }
     }
     if (pairings.isNotEmpty) {
       updateCompPairData();
     }
+  }
+
+  void assignPoints(String school) {
+    //
+    // Calculates number of points to assign based on number of participants
+    // in school and the current round
+    //
+    int numPoints = (((maxInSchool / schools[school]!.length) *
+                exp(0.45 * currentRound + 1)) *
+            10)
+        .round();
+    schoolPoints[school] += numPoints;
   }
 
   void endMatch(List<List<Player>> pairings, List<Player> winners,

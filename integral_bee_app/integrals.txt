@@ -1,5 +1,5 @@
 \int_{e}^{\infty}\!\frac{\ln x-1}{x^2}\mathrm{d}x,\frac{1}{e},Medium,13FM
-\int\!\frac{3\cos x}{\left(1+\sin x\right)^3}\mathrm{d}x,-\frac{3}{2\left(1+\sin x\right)^2}+c,Easy,all
+\int\!\frac{3\cos x}{\left(1+\sin x\right)^3}\mathrm{d}x,-\frac{3}{2\left(1+\sin x\right)^2}+c,Easy,all,true
 \int\!\frac{\left(\ln x\right)^{2024}}{x}\;\mathrm{d}x,\frac{1}{2025}\left(\ln x\right)^{2025}+c,Easy,all
 \int_{\frac{\pi}{2}}^{\frac{3\pi}{2}}\!\frac{3\sqrt2}{4}\sin2x\sqrt{1+\cos2x}\mathrm{d}x,0,Medium,all
 \int\!\frac{2x}{x^2+4x+4}\;\mathrm{d}x,\ln\left(x^2+4x+4\right)+\frac{4}{x+2}+c,Medium,all

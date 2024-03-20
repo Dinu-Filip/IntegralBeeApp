@@ -161,7 +161,9 @@ class RoundState extends State<Round> {
           answer: intData[1],
           difficulty: intData[2],
           played: false,
-          years: intData[3]));
+          years: intData[3],
+          isTiebreak: intData.length == 4 ? false : true));
+      // isTiebreak: intData[4] == "true" ? true : false
       remainingIntegrals[integrals.last.difficulty]!.add(integrals.last);
     }
     //

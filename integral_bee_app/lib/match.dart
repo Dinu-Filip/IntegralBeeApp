@@ -62,10 +62,12 @@ class MatchState extends State<Match> {
 
   void assignIntegrals() {
     List<Integral> assignedIntegrals = [];
+    bool selectTiebreak =
+        numIntegralsPlayed >= widget.numIntegrals ? true : false;
     for (List<Player> pairing in remainingPairings) {
       int idx = 0;
       //
-      // If all the integrals at a particular level of difficult have been exhausted
+      // If all the integrals at a particular level of difficulty have been exhausted
       // then should go down one level of difficulty
       //
       if (widget.integrals[currentDifficulty]!.isEmpty) {
@@ -76,40 +78,50 @@ class MatchState extends State<Match> {
         //
         // Assigns FM integral only if both players in Year 13 and study FM
         //
-        if (currentIntegral.years == "13FM") {
-          if (pairing[0].year == Years.year13.year &&
-              pairing[0].studiesFM &&
-              pairing[1].year == Years.year13.year &&
-              pairing[1].studiesFM) {
+        if (!selectTiebreak || currentIntegral.isTiebreak) {
+          if (currentIntegral.years == "13FM") {
+            if (pairing[0].year == Years.year13.year &&
+                pairing[0].studiesFM &&
+                pairing[1].year == Years.year13.year &&
+                pairing[1].studiesFM) {
+              currentIntegrals[pairing] = currentIntegral;
+              currentIntegral.played = true;
+              assignedIntegrals.add(currentIntegral);
+              widget.integrals[currentDifficulty]!.removeAt(idx);
+              break;
+            }
+          }
+          //
+          // Assigns Year 12 integral only if both players in Year 12
+          //
+          else if (currentIntegral.years == "12") {
+            if (pairing[0].year == Years.year12.year &&
+                pairing[1].year == Years.year12.year) {
+              currentIntegrals[pairing] = currentIntegral;
+              currentIntegral.played = true;
+              assignedIntegrals.add(currentIntegral);
+              widget.integrals[currentDifficulty]!.removeAt(idx);
+              break;
+            }
+          } else {
             currentIntegrals[pairing] = currentIntegral;
             currentIntegral.played = true;
             assignedIntegrals.add(currentIntegral);
             widget.integrals[currentDifficulty]!.removeAt(idx);
             break;
           }
-        }
-        //
-        // Assigns Year 12 integral only if both players in Year 12
-        //
-        else if (currentIntegral.years == "12") {
-          if (pairing[0].year == Years.year12.year &&
-              pairing[1].year == Years.year12.year) {
-            currentIntegrals[pairing] = currentIntegral;
-            currentIntegral.played = true;
-            assignedIntegrals.add(currentIntegral);
-            widget.integrals[currentDifficulty]!.removeAt(idx);
-            break;
-          }
-        } else {
-          currentIntegrals[pairing] = currentIntegral;
-          currentIntegral.played = true;
-          assignedIntegrals.add(currentIntegral);
-          widget.integrals[currentDifficulty]!.removeAt(idx);
-          break;
         }
         idx += 1;
         if (idx == widget.integrals[currentDifficulty]!.length) {
-          currentDifficulty = reduceDifficulty(currentDifficulty);
+          //
+          // If no tiebreak integrals at current difficulty level, then will go through
+          // other integrals at same difficulty
+          //
+          if (selectTiebreak) {
+            selectTiebreak = false;
+          } else {
+            currentDifficulty = reduceDifficulty(currentDifficulty);
+          }
           idx = 0;
         }
       }

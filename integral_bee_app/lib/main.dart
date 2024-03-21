@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:integral_bee_app/add_integrals.dart';
 import 'package:integral_bee_app/add_players.dart';
 import 'package:integral_bee_app/player.dart';
 import 'dart:convert';
@@ -337,7 +338,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                     .circular(
                                                                         10))),
                                                 onPressed: () {
-                                                  print("ok");
+                                                  onPageSelect(AddIntegrals());
                                                 },
                                                 label: const AutoSizeText(
                                                     textAlign: TextAlign.center,

@@ -142,10 +142,15 @@ class RoundState extends State<Round> {
     List<String> splitData = integralData.split("\n");
     splitData.removeLast();
     //
+    // Keeps track of current integral number
+    //
+    int currentIdx = 0;
+    //
     // Creates array of Integral objects as the definitive collection of integrals
     // to use in the tournament
     //
     for (String d in splitData) {
+      currentIdx += 1;
       List<String> intData = d.trim().split(",");
       //
       // Checks that any integrals have not already been shown if tournament loaded
@@ -162,7 +167,8 @@ class RoundState extends State<Round> {
           difficulty: intData[2],
           played: false,
           years: intData[3],
-          isTiebreak: intData.length == 4 ? false : true));
+          isTiebreak: intData.length == 4 ? false : true,
+          idx: currentIdx));
       // isTiebreak: intData[4] == "true" ? true : false
       remainingIntegrals[integrals.last.difficulty]!.add(integrals.last);
     }
@@ -201,13 +207,21 @@ class RoundState extends State<Round> {
     //
     List<Player> initialPlayers = [];
     List<List<Player>> initialPairings = [];
-    for (Player player in participants) {
-      initialPlayers.add(player);
+    bool allShuffled = false;
+    //
+    // Orders participants so that participants from different schools will be paired first
+    //
+    int currentIdx = 0;
+    while (!allShuffled) {
+      allShuffled = true;
+      for (String school in schools.keys) {
+        if (currentIdx < schools[school]!.length) {
+          initialPlayers.add(schools[school]![currentIdx]);
+          allShuffled = false;
+        }
+      }
+      currentIdx += 1;
     }
-    //
-    // Pairings are taken from adjacent pairs of players - list is shuffled first for randomness
-    //
-    initialPlayers.shuffle();
     int totalPlayers = initialPlayers.length;
     double log2 = log(totalPlayers) / log(2);
     //
@@ -368,6 +382,12 @@ class RoundState extends State<Round> {
       }
     }
     //
+    // Shuffles students from each school to ensure randomised pairings
+    //
+    for (String school in schools.keys) {
+      schools[school]!.shuffle();
+    }
+    //
     // Initialises maxInSchool to use when calculating number of points
     //
     for (List<Player> schoolPlayers in schools.values) {
@@ -399,8 +419,8 @@ class RoundState extends State<Round> {
       await clearCompData();
       await initialiseParticipants();
       setRounds();
-      initialiseMatches();
       initialiseSchoolData();
+      initialiseMatches();
       String roundName = rounds[currentRound];
       currentStage = RoundPreview(
           round: roundName,
@@ -446,12 +466,33 @@ class RoundState extends State<Round> {
         //
         int idx = 0;
         bool assigned = false;
-        while (idx < matches[currentRound + 1].length && !assigned) {
-          if (matches[currentRound + 1][idx].length == 1) {
-            matches[currentRound + 1][idx].add(winner);
-            assigned = true;
+        bool assignForSchool = true;
+        while (!assigned) {
+          while (idx < matches[currentRound + 1].length) {
+            if (matches[currentRound + 1][idx].length == 1) {
+              //
+              // Prioritises pairing a student with a student from a different school
+              //
+              if (assignForSchool) {
+                if (matches[currentRound + 1][idx][0].school != winner.school) {
+                  matches[currentRound + 1][idx].add(winner);
+                  assigned = true;
+                  break;
+                }
+              } else {
+                matches[currentRound + 1][idx].add(winner);
+                assigned = true;
+                break;
+              }
+            }
+            idx += 1;
           }
-          idx += 1;
+          idx = 0;
+          if (assignForSchool) {
+            assignForSchool = false;
+          } else if (!assignForSchool && !assigned) {
+            break;
+          }
         }
         if (!assigned) {
           matches[currentRound + 1].add([winner]);

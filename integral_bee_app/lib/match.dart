@@ -3,10 +3,10 @@ import 'package:integral_bee_app/integral_summary.dart';
 import 'package:integral_bee_app/integral_timer.dart';
 import 'package:integral_bee_app/mid_match_preview.dart';
 import 'package:integral_bee_app/integral.dart';
-import 'package:flutter_math_fork/flutter_math.dart';
 import 'package:integral_bee_app/settings.dart';
 import 'package:integral_bee_app/match_countdown.dart';
 import 'package:integral_bee_app/player.dart';
+import 'package:integral_bee_app/single_integral_display.dart';
 
 class Match extends StatefulWidget {
   final Map<String, List<Integral>> integrals;
@@ -135,10 +135,10 @@ class MatchState extends State<Match> {
     // Integral displays show the integrals in play
     //
     late Widget integralDisplays;
-    List<String> rawIntegral = [];
+    List<Integral> rawIntegral = [];
     for (Integral? integral in currentIntegrals.values) {
       if (integral != null) {
-        rawIntegral.add(integral.integral);
+        rawIntegral.add(integral);
       }
     }
     if (rawIntegral.length == 1) {
@@ -148,32 +148,15 @@ class MatchState extends State<Match> {
       integralDisplays = Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Flexible(
-                child: FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: Math.tex(rawIntegral[0],
-                        mathStyle: MathStyle.display,
-                        textStyle: integralTextStyle)))
-          ]);
+          children: [SingleIntegralDisplay(rawIntegral: rawIntegral[0])]);
     } else if (rawIntegral.length == 2) {
       //
       // Shows two integrals side by side
       //
       integralDisplays =
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-        Flexible(
-            child: FittedBox(
-                fit: BoxFit.fitWidth,
-                child: Math.tex(rawIntegral[0],
-                    mathStyle: MathStyle.display,
-                    textStyle: integralTextStyle))),
-        Flexible(
-            child: FittedBox(
-                fit: BoxFit.fitWidth,
-                child: Math.tex(rawIntegral[1],
-                    mathStyle: MathStyle.display,
-                    textStyle: integralTextStyle)))
+        SingleIntegralDisplay(rawIntegral: rawIntegral[0]),
+        SingleIntegralDisplay(rawIntegral: rawIntegral[1])
       ]);
     } else if (rawIntegral.length == 3) {
       //
@@ -186,23 +169,11 @@ class MatchState extends State<Match> {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Flexible(
-                      child: FittedBox(
-                          fit: BoxFit.fitWidth,
-                          child: Math.tex(rawIntegral[0],
-                              textStyle: integralTextStyle))),
-                  Flexible(
-                      child: FittedBox(
-                          fit: BoxFit.fitWidth,
-                          child: Math.tex(rawIntegral[1],
-                              textStyle: integralTextStyle)))
+                  SingleIntegralDisplay(rawIntegral: rawIntegral[0]),
+                  SingleIntegralDisplay(rawIntegral: rawIntegral[1])
                 ])),
         const Spacer(flex: 1),
-        Flexible(
-            flex: 3,
-            child: FittedBox(
-                fit: BoxFit.fitWidth,
-                child: Math.tex(rawIntegral[2], textStyle: integralTextStyle))),
+        SingleIntegralDisplay(rawIntegral: rawIntegral[2], flex: 3),
         const Spacer(flex: 1)
       ]);
     } else {
@@ -216,16 +187,8 @@ class MatchState extends State<Match> {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Flexible(
-                      child: FittedBox(
-                          fit: BoxFit.fitWidth,
-                          child: Math.tex(rawIntegral[0],
-                              textStyle: integralTextStyle))),
-                  Flexible(
-                      child: FittedBox(
-                          fit: BoxFit.fitWidth,
-                          child: Math.tex(rawIntegral[1],
-                              textStyle: integralTextStyle))),
+                  SingleIntegralDisplay(rawIntegral: rawIntegral[0]),
+                  SingleIntegralDisplay(rawIntegral: rawIntegral[1])
                 ])),
         const Spacer(flex: 1),
         Expanded(
@@ -233,16 +196,8 @@ class MatchState extends State<Match> {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Flexible(
-                      child: FittedBox(
-                          fit: BoxFit.fitWidth,
-                          child: Math.tex(rawIntegral[2],
-                              textStyle: integralTextStyle))),
-                  Flexible(
-                      child: FittedBox(
-                          fit: BoxFit.fitWidth,
-                          child: Math.tex(rawIntegral[3],
-                              textStyle: integralTextStyle))),
+                  SingleIntegralDisplay(rawIntegral: rawIntegral[2]),
+                  SingleIntegralDisplay(rawIntegral: rawIntegral[3])
                 ])),
         const Spacer(flex: 1)
       ]);

@@ -5,6 +5,7 @@ class Integral {
   bool played;
   final String years;
   final bool isTiebreak;
+  final int idx;
 
   Integral(
       {required this.integral,
@@ -12,7 +13,8 @@ class Integral {
       required this.difficulty,
       required this.played,
       required this.years,
-      required this.isTiebreak});
+      required this.isTiebreak,
+      required this.idx});
 
   Map<String, dynamic> toJson() {
     return {
@@ -21,7 +23,8 @@ class Integral {
       "difficulty": difficulty,
       "played": played,
       "years": years,
-      "tiebreak": isTiebreak
+      "tiebreak": isTiebreak,
+      "idx": idx
     };
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'dart:io';
 
 class AddPlayer extends StatefulWidget {
@@ -40,10 +39,8 @@ class AddPlayerState extends State<AddPlayer> {
     return FractionallySizedBox(
         widthFactor: 0.3,
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          Padding(
-              padding: const EdgeInsets.all(40),
-              child:
-                  Text("Add student", style: GoogleFonts.cabin(fontSize: 35))),
+          const Padding(
+              padding: EdgeInsets.all(40), child: Text("Add student")),
           Padding(
               padding: const EdgeInsets.only(top: 10, bottom: 10),
               child: TextFormField(

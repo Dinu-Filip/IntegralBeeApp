@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:integral_bee_app/settings.dart';
 import 'package:integral_bee_app/standard_widgets.dart';
 
 class RoundPreview extends StatefulWidget {
   final String round;
   final int numParticipants;
   final int numIntegrals;
-  final double integralTime;
+  final int integralTime;
   final List<dynamic> roundData;
   final Function startRound;
   final Function showDraw;
@@ -26,14 +27,18 @@ class RoundPreview extends StatefulWidget {
 
 class RoundPreviewState extends State<RoundPreview> {
   static const List<String> schools = ["Beths Grammar School"];
-  static const Map<String, String> schoolCode = {
-    "Beths Grammar School": "Beths",
-    "St Olave's Grammar School": "Olave's",
-    "Townley Grammar School": "Townley"
-  };
+  Map<String, String> schoolCode = {};
 
   @override
   Widget build(BuildContext context) {
+    for (String school in schoolNames) {
+      String initials = "";
+      for (String word in school.split(" ")) {
+        initials += word[0].toUpperCase();
+      }
+      schoolCode[school] = initials;
+    }
+
     return ListView(
       children: [
         StageTitle1(text: widget.round),
@@ -43,7 +48,7 @@ class RoundPreviewState extends State<RoundPreview> {
             child: FractionallySizedBox(
                 widthFactor: 0.6, child: Divider(color: Colors.black))),
         StageHeader(text: "${widget.numIntegrals} integrals"),
-        StageHeader(text: "${widget.integralTime} minutes per integral"),
+        StageHeader(text: "${widget.integralTime / 60} minutes per integral"),
         const Padding(
             padding: EdgeInsets.all(15),
             child: FractionallySizedBox(

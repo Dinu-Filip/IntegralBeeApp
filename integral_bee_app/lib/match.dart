@@ -209,14 +209,10 @@ class MatchState extends State<Match> {
     //
     // Calculates number of seconds for corresponding round
     //
-    if (widget.round == Rounds.quarterfinalRound.round) {
-      timeLimit = 180;
-    } else if (widget.round == Rounds.semifinalRound.round) {
-      timeLimit = 240;
-    } else if (widget.round == Rounds.finalRound.round) {
-      timeLimit = 300;
+    if (timePerRound.containsKey(widget.round)) {
+      timeLimit = timePerRound[widget.round]!;
     } else {
-      timeLimit = 180;
+      timeLimit = timePerRound["other"]!;
     }
   }
 

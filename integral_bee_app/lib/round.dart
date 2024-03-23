@@ -255,23 +255,18 @@ class RoundState extends State<Round> {
   }
 
   int numberOfIntegrals(String round) {
-    if (round == Rounds.semifinalRound.round ||
-        round == Rounds.finalRound.round) {
-      return 5;
+    if (integralsPerRound.containsKey(round)) {
+      return integralsPerRound[round]!;
     } else {
-      return 3;
+      return integralsPerRound["other"]!;
     }
   }
 
-  double timePerIntegral(String round) {
-    if (round == Rounds.quarterfinalRound.round) {
-      return 3;
-    } else if (round == Rounds.semifinalRound.round) {
-      return 4;
-    } else if (round == Rounds.finalRound.round) {
-      return 5;
+  int timePerIntegral(String round) {
+    if (timePerRound.containsKey(round)) {
+      return timePerRound[round]!;
     } else {
-      return 2.5;
+      return timePerRound["other"]!;
     }
   }
 
@@ -364,21 +359,25 @@ class RoundState extends State<Round> {
 
   void initialiseSchoolData() {
     //
-    // Initialises points for school as 0
-    //
-    if (!widget.loadFromPrevious) {
-      for (String school in Schools.values.map((school) => school.schoolName)) {
-        schoolPoints[school] = 0;
-      }
-    }
-    //
     // Groups participants by school
     //
     for (Player player in participants) {
+      if (!schoolNames.contains(player.school)) {
+        schoolNames.add(player.school);
+      }
       if (schools.keys.contains(player.school)) {
         schools[player.school]!.add(player);
       } else {
         schools[player.school] = [player];
+      }
+    }
+    //
+    // Initialises points for school as 0
+    //
+    schoolNames = schools.keys.toList();
+    if (!widget.loadFromPrevious) {
+      for (String school in schoolNames) {
+        schoolPoints[school] = 0;
       }
     }
     //

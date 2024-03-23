@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 
+import 'package:integral_bee_app/settings.dart';
+
 class AddPlayer extends StatefulWidget {
   const AddPlayer({super.key});
 
@@ -10,7 +12,7 @@ class AddPlayer extends StatefulWidget {
 
 class AddPlayerState extends State<AddPlayer> {
   static const String fileName = "player.txt";
-  static const List<String> schools = ["Beths Grammar School"];
+  static List<String> schools = schoolNames;
   static const Color primaryColour = Color(0xFF03045E);
   static const Color secondaryColour = Color(0xFFFFFFFF);
   late Color btnBackground = secondaryColour;

@@ -1,17 +1,12 @@
-Edmund Keeling,Beths Grammar School,12,true
-Vladimir Filip,Beths Grammar School,13,true
-Miles Stewart,Beths Grammar School,12,true
-Derek Jimenez,Beths Grammar School,12,true
-Joel Fernandes,Beths Grammar School,12,true
 Alexander Litchev,Beths Grammar School,13,true
-Daiyan Bhuiyan,St Olave's Grammar School,13,true
 Bernard Poh,St Olave's Grammar School,13,true
 Samyam Pandey,St Olave's Grammar School,13,true
 Jeron Justin,St Olave's Grammar School,13,true
 Roy Le,St Olave's Grammar School,13,false
 Anish Baskaran,St Olave's Grammar School,13,true
 Joel Hamilton,Townley Grammar School,12,true
-Emir Hamad,Townley Grammar School,12,true
-Clayton Wambu,Townley Grammar School,12,true
-Jobayer Khan,Beths Grammar School,13,true
 Ovie Ogberahwe,Beths Grammar School,13,true
+Elia Battaglia,St Olave's Grammar School,13,true,
+Vladimir Filip,Townley Grammar School,13,true
+Dinu Filip,Beths Grammar School,13,true
+Other,Beths Grammar School,13,true

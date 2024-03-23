@@ -168,7 +168,6 @@ class SettingsState extends State<Settings> {
       }
     }
     if (valid) {
-      print("valid");
       hostSchool = controllers["host school"]!.text;
       competitionTitle = controllers["competition title"]!.text;
       List<String> rounds = timePerRound.keys.toList();

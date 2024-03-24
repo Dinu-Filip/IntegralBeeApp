@@ -9,14 +9,16 @@ class Player {
       {required this.name,
       required this.school,
       required this.year,
-      required this.studiesFM});
+      required this.studiesFM,
+      this.lastRound});
 
   Map<String, dynamic> toJson() {
     return {
       "name": name,
       "school": school,
       "year": year,
-      "studiesFM": studiesFM
+      "studiesFM": studiesFM,
+      "lastRound": lastRound
     };
   }
 }

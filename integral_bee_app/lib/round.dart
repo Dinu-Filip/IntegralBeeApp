@@ -109,13 +109,19 @@ class RoundState extends State<Round> {
   //
   late String winningSchool;
 
-  Future<int> initialiseParticipants() async {
+  Future<bool> initialiseParticipants() async {
     String participantData = await File(playerFile).readAsString();
     List<String> splitData = participantData.split("\n");
     //
     // Removes trailing empty record
     //
     splitData.removeLast();
+    //
+    // At least 4 participants required for competition
+    //
+    if (splitData.length < 5) {
+      return false;
+    }
     participants = splitData
         .map((p) => () {
               List<String> playerData = p.split(",");
@@ -134,43 +140,61 @@ class RoundState extends State<Round> {
         participants.map((player) => player.toJson()).toList();
     jsonString = json.encode(jsonContent);
     await file.writeAsString(jsonString);
-    return 1;
+    return true;
   }
 
-  Future<int> loadIntegrals() async {
+  Future<bool> loadIntegrals() async {
     String integralData = await File(integralFile).readAsString();
     List<String> splitData = integralData.split("\n");
     splitData.removeLast();
-    //
-    // Keeps track of current integral number
-    //
-    int currentIdx = 0;
+    if (splitData.isEmpty) {
+      return false;
+    }
+
     //
     // Creates array of Integral objects as the definitive collection of integrals
     // to use in the tournament
     //
+    Map<String, List<String>> tempDifficulties = {
+      "Easy": [],
+      "Medium": [],
+      "Hard": [],
+      "Final": []
+    };
+
     for (String d in splitData) {
-      currentIdx += 1;
-      List<String> intData = d.trim().split(",");
-      //
-      // Checks that any integrals have not already been shown if tournament loaded
-      // from previous
-      //
-      if (widget.assignedIntegrals != null) {
-        if (widget.assignedIntegrals!.contains(intData[0])) {
-          continue;
+      List<String> temp = d.trim().split(",");
+      tempDifficulties[temp[2]]!.add(d);
+    }
+    //
+    // Keeps track of current integral number
+    //
+    int currentIdx = 0;
+    for (String key in tempDifficulties.keys) {
+      List<String> currentDifficultyIntegrals = tempDifficulties[key]!;
+      for (String d in currentDifficultyIntegrals) {
+        currentIdx += 1;
+        List<String> intData = d.trim().split(",");
+        //
+        // Checks that any integrals have not already been shown if tournament loaded
+        // from previous
+        //
+        if (widget.assignedIntegrals != null) {
+          if (widget.assignedIntegrals!.contains(intData[0])) {
+            continue;
+          }
         }
+        integrals.add(Integral(
+            integral: intData[0],
+            answer: intData[1],
+            difficulty: intData[2],
+            played: false,
+            years: intData[3],
+            isTiebreak: intData.length == 4 ? false : true,
+            idx: currentIdx));
+        // isTiebreak: intData[4] == "true" ? true : false
+        remainingIntegrals[integrals.last.difficulty]!.add(integrals.last);
       }
-      integrals.add(Integral(
-          integral: intData[0],
-          answer: intData[1],
-          difficulty: intData[2],
-          played: false,
-          years: intData[3],
-          isTiebreak: intData.length == 4 ? false : true,
-          idx: currentIdx));
-      // isTiebreak: intData[4] == "true" ? true : false
-      remainingIntegrals[integrals.last.difficulty]!.add(integrals.last);
     }
     //
     // Ensures that selection of integrals is random
@@ -179,7 +203,7 @@ class RoundState extends State<Round> {
       integrals.shuffle();
     }
 
-    return 1;
+    return true;
   }
 
   void setRounds() {
@@ -296,7 +320,22 @@ class RoundState extends State<Round> {
         updateRounds: updateRounds,
         endMatch: endMatch,
         numIntegrals: numberOfIntegrals(round),
+        errorMoreIntegrals: errorMoreIntegrals,
       );
+    });
+  }
+
+  void errorMoreIntegrals() {
+    setState(() {
+      currentStage = AlertDialog(
+          title: const Text("More integrals needed"),
+          content: const Text(
+              "All available integrals have been exhausted. Please add more integrals before continuing with the tournament"),
+          actions: <Widget>[
+            TextButton(
+                onPressed: () => {Navigator.pop(context)},
+                child: const Text("Back to home"))
+          ]);
     });
   }
 
@@ -326,7 +365,8 @@ class RoundState extends State<Round> {
               integralTime: timePerIntegral(roundName),
               roundData: matches[currentRound],
               startRound: doRound,
-              showDraw: showDraw);
+              showDraw: showDraw,
+              schoolPoints: schoolPoints);
         });
       }
     } else {
@@ -348,12 +388,25 @@ class RoundState extends State<Round> {
         winningSchool = school;
       }
     }
+    if (widget.loadFromPrevious) {
+      if (matches.last[0][0].lastRound == null) {
+        winner = matches.last[0][0];
+        runnerUp = matches.last[0][1];
+      } else {
+        winner = matches.last[0][1];
+        runnerUp = matches.last[0][0];
+      }
+    }
+    matches.add([
+      [winner]
+    ]);
     setState(() {
       currentStage = TournamentSummary(
           winner: winner,
           runnerUp: runnerUp,
           winningSchool: winningSchool,
-          winSchoolPoints: winSchoolPoints);
+          winSchoolPoints: winSchoolPoints,
+          showDraw: showDraw);
     });
   }
 
@@ -416,21 +469,45 @@ class RoundState extends State<Round> {
       // Clears any previously stored competition data
       //
       await clearCompData();
-      await initialiseParticipants();
-      setRounds();
-      initialiseSchoolData();
-      initialiseMatches();
-      String roundName = rounds[currentRound];
-      currentStage = RoundPreview(
-          round: roundName,
-          numParticipants: matches[currentRound].length * 2,
-          numIntegrals: numberOfIntegrals(roundName),
-          integralTime: timePerIntegral(roundName),
-          roundData: matches[currentRound],
-          startRound: doRound,
-          showDraw: showDraw);
-      await loadIntegrals();
-      updateCompRoundData();
+      bool participantsLoaded = await initialiseParticipants();
+      bool integralsLoaded = await loadIntegrals();
+      if (!participantsLoaded) {
+        currentStage = AlertDialog(
+            title: const Text("More participants needed"),
+            content: const Text(
+                "Four or fewer students were found. Please go to 'Add player' and input data for additional students"),
+            actions: <Widget>[
+              TextButton(
+                  onPressed: () => {Navigator.pop(context)},
+                  child: const Text("Back to home"))
+            ]);
+      } else if (!integralsLoaded) {
+        currentStage = AlertDialog(
+            title: const Text("More integrals needed"),
+            content: const Text(
+                "No integrals were found. Please go to 'Add integrals' and input data for additional integrals"),
+            actions: <Widget>[
+              TextButton(
+                  onPressed: () => {Navigator.pop(context)},
+                  child: const Text("Back to home"))
+            ]);
+      } else {
+        setRounds();
+        initialiseSchoolData();
+        initialiseMatches();
+        String roundName = rounds[currentRound];
+        currentStage = RoundPreview(
+            round: roundName,
+            numParticipants: matches[currentRound].length * 2,
+            numIntegrals: numberOfIntegrals(roundName),
+            integralTime: timePerIntegral(roundName),
+            roundData: matches[currentRound],
+            startRound: doRound,
+            showDraw: showDraw,
+            schoolPoints: schoolPoints);
+
+        updateCompRoundData();
+      }
     }
     return 1;
   }
@@ -453,7 +530,6 @@ class RoundState extends State<Round> {
       //
       winner = winners[0];
       runnerUp = pairings[0][0] == winner ? pairings[0][1] : pairings[0][0];
-
       schoolPoints[winner.school] = schoolPoints[winner.school]! + 5;
       winningSchool = winner.school;
     } else {
@@ -507,16 +583,19 @@ class RoundState extends State<Round> {
     }
   }
 
+  int calculatePoints(String school) {
+    return (((maxInSchool / schools[school]!.length) *
+                exp(0.45 * (currentRound + 1))) *
+            10)
+        .round();
+  }
+
   void assignPoints(String school) {
     //
     // Calculates number of points to assign based on number of participants
     // in school and the current round
     //
-    int numPoints = (((maxInSchool / schools[school]!.length) *
-                exp(0.45 * currentRound + 1)) *
-            10)
-        .round();
-    schoolPoints[school] += numPoints;
+    schoolPoints[school] = schoolPoints[school]! + calculatePoints(school);
   }
 
   void endMatch(List<List<Player>> pairings, List<Player> winners,
@@ -527,7 +606,8 @@ class RoundState extends State<Round> {
           winners: winners,
           scores: scores,
           pairings: pairings,
-          continueRound: doRound);
+          continueRound: doRound,
+          calculatePoints: calculatePoints);
     });
   }
 
@@ -535,8 +615,8 @@ class RoundState extends State<Round> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                Scaffold(body: Center(child: Draw(draw: matches)))));
+            builder: (context) => Scaffold(
+                body: Center(child: Draw(draw: matches, rounds: rounds)))));
   }
 
   void addUsedIntegral(List<String> integrals) async {
@@ -561,6 +641,7 @@ class RoundState extends State<Round> {
         currentFinished.map((e) => [e[0].toJson(), e[1].toJson()]).toList();
     jsonContent["schoolPoints"] = schoolPoints;
     jsonContent["matches"] = convertMatchDatatoJSON();
+    jsonContent["participants"] = participants.map((e) => e.toJson()).toList();
     jsonString = json.encode(jsonContent);
     await file.writeAsString(jsonString);
   }
@@ -593,7 +674,7 @@ class RoundState extends State<Round> {
     jsonContent["currentFinished"].clear();
     jsonContent["matches"] = convertMatchDatatoJSON();
     jsonContent["schoolPoints"] = schoolPoints;
-
+    jsonContent["participants"] = participants.map((e) => e.toJson()).toList();
     jsonString = json.encode(jsonContent);
     await file.writeAsString(jsonString);
     return 1;

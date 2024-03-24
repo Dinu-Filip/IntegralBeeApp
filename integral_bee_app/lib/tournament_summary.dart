@@ -6,13 +6,15 @@ class TournamentSummary extends StatelessWidget {
   final Player runnerUp;
   final String winningSchool;
   final int winSchoolPoints;
+  final Function showDraw;
 
   const TournamentSummary(
       {super.key,
       required this.winner,
       required this.runnerUp,
       required this.winningSchool,
-      required this.winSchoolPoints});
+      required this.winSchoolPoints,
+      required this.showDraw});
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +70,28 @@ class TournamentSummary extends StatelessWidget {
               textAlign: TextAlign.center,
               "Thank you all for taking part! We hope you enjoyed it!",
               style: TextStyle(fontSize: 40)),
-          const SizedBox(height: 40)
+          const SizedBox(height: 40),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            SizedBox(
+                width: 200,
+                height: 50,
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child:
+                        const Text("Go back", style: TextStyle(fontSize: 25)))),
+            const SizedBox(width: 50),
+            SizedBox(
+                width: 200,
+                height: 50,
+                child: TextButton(
+                    onPressed: () {
+                      showDraw();
+                    },
+                    child: const Text("Show draw",
+                        style: TextStyle(fontSize: 25))))
+          ])
         ]));
   }
 }

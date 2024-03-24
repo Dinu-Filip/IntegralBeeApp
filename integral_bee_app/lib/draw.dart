@@ -5,15 +5,21 @@ import 'package:integral_bee_app/standard_widgets.dart';
 
 class Draw extends StatefulWidget {
   final List<List<dynamic>> draw;
+  final List<String> rounds;
 
-  const Draw({super.key, required this.draw});
+  const Draw({super.key, required this.draw, required this.rounds});
 
   @override
   State<Draw> createState() => DrawState();
 }
 
 class DrawState extends State<Draw> {
-  static const TextStyle labelStyle = TextStyle(fontSize: 18);
+  static const TextStyle labelStyle =
+      TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.w500);
+  static const TextStyle winnerStyle =
+      TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.red);
+  static const TextStyle loserStyle =
+      TextStyle(fontSize: 18, decoration: TextDecoration.lineThrough);
   BoxConstraints bracketConstraints = const BoxConstraints(minHeight: 1000);
   final List<Widget> brackets = [];
 
@@ -114,11 +120,19 @@ class DrawState extends State<Draw> {
                     Text(
                         textAlign: TextAlign.center,
                         player1.name,
-                        style: labelStyle)
+                        style:
+                            player1.lastRound == null ? labelStyle : loserStyle)
                   ])));
           lines.add(const Spacer(flex: 2));
         } else {
           Player player1 = draw[i][j][0];
+          Player player2 = draw[i][j][1];
+          bool played = true;
+          if (player1.lastRound == null &&
+              player2.lastRound == null &&
+              i == 0) {
+            played = false;
+          }
           pairings.add(Expanded(
               flex: 1,
               child: Column(
@@ -127,16 +141,24 @@ class DrawState extends State<Draw> {
                     Text(
                         textAlign: TextAlign.center,
                         player1.name,
-                        style: labelStyle)
+                        style: played
+                            ? (player1.lastRound != null
+                                ? loserStyle
+                                : winnerStyle)
+                            : labelStyle)
                   ])));
-          Player player2 = draw[i][j][1];
           pairings.add(Expanded(
               flex: 1,
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(player2.name,
-                        textAlign: TextAlign.center, style: labelStyle)
+                        textAlign: TextAlign.center,
+                        style: played
+                            ? (player2.lastRound != null
+                                ? loserStyle
+                                : winnerStyle)
+                            : labelStyle)
                   ])));
           lines.add(Expanded(
               flex: 2,
@@ -146,9 +168,26 @@ class DrawState extends State<Draw> {
                       fit: BoxFit.fitHeight))));
         }
       }
-      brackets.add(
-          SizedBox(width: bracketWidth, child: Column(children: pairings)));
-      brackets.add(SizedBox(width: 50, child: Column(children: lines)));
+      brackets.add(SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: bracketWidth,
+          child: Column(
+              children: <Widget>[
+                    SizedBox(
+                        height: 50,
+                        child: Text(
+                            i < widget.rounds.length ? widget.rounds[i] : "",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 30,
+                                color: Colors.indigoAccent)))
+                  ] +
+                  pairings)));
+      brackets.add(SizedBox(
+          width: 50,
+          height: MediaQuery.of(context).size.height,
+          child:
+              Column(children: <Widget>[const SizedBox(height: 50)] + lines)));
     }
   }
 
@@ -160,7 +199,7 @@ class DrawState extends State<Draw> {
     return Column(children: [
       const StageTitle2(text: "Tournament draw"),
       const SizedBox(height: 20),
-      Expanded(child: Row(children: brackets)),
+      Expanded(child: SingleChildScrollView(child: Row(children: brackets))),
       const SizedBox(height: 20),
       SizedBox(
           width: 400,

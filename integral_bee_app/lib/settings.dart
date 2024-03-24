@@ -28,16 +28,16 @@ const String integralFile = "integrals.txt";
 
 Map<String, int> timePerRound = {
   "other": 120,
-  Rounds.quarterfinalRound.name: 180,
-  Rounds.semifinalRound.name: 240,
-  Rounds.finalRound.name: 300,
+  Rounds.quarterfinalRound.round: 180,
+  Rounds.semifinalRound.round: 240,
+  Rounds.finalRound.round: 300,
 };
 
 Map<String, int> integralsPerRound = {
   "other": 3,
-  Rounds.quarterfinalRound.name: 3,
-  Rounds.semifinalRound.name: 5,
-  Rounds.finalRound.name: 5,
+  Rounds.quarterfinalRound.round: 3,
+  Rounds.semifinalRound.round: 5,
+  Rounds.finalRound.round: 5,
 };
 
 List<String> difficulties = ["Easy", "Medium", "Hard", "Final"];
@@ -61,7 +61,8 @@ Future<int> updateSettings() async {
 
 Future<int> loadSettings() async {
   var file = File("settings.json");
-  var settingsData = await file.readAsString();
+  String settingsData = await file.readAsString();
+
   if (settingsData.isNotEmpty) {
     Map<String, dynamic> rawData = json.decode(settingsData);
     Map<String, int> tempTimePerRound = {};
@@ -141,17 +142,21 @@ class SettingsState extends State<Settings> {
       if (int.tryParse(time) == null) {
         errors.add("$time in times per round is not a valid integer");
         valid = false;
-      } else if (int.tryParse(time)! < 10 || int.tryParse(time)! > 600) {
         errors
             .add("$time in times per round must be between 10 and 600 seconds");
         valid = false;
       }
     }
-    //
     // Checks number of integrals valid odd integer and within acceptable range
     //
     List<String> intsPerRound =
         controllers["integrals per round"]!.text.split("/");
+    if (intsPerRound.length != 4) {
+      errors.add(
+          "The number of integrals must be specified for each round (other/quarterfinal/semifinal/final)");
+      valid = false;
+    }
+
     for (String num in intsPerRound) {
       if (int.tryParse(num) == null) {
         errors.add(
@@ -279,7 +284,16 @@ class SettingsState extends State<Settings> {
                                   ]))
                           .toList());
                 }
-              }()))
+              }())),
+          SizedBox(
+              height: 40,
+              width: 300,
+              child: TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Back", style: TextStyle(fontSize: 20)))),
+          const SizedBox(height: 30)
         ]));
   }
 }

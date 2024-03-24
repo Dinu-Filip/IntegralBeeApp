@@ -11,6 +11,7 @@ class MatchSummary extends StatelessWidget {
   final List<String> loserNames = [];
   final Function continueRound;
   final TextStyle textFieldStyle = const TextStyle(fontSize: 35);
+  final Function calculatePoints;
 
   MatchSummary(
       {super.key,
@@ -18,7 +19,8 @@ class MatchSummary extends StatelessWidget {
       required this.winners,
       required this.scores,
       required this.pairings,
-      required this.continueRound});
+      required this.continueRound,
+      required this.calculatePoints});
 
   void generateResults() {
     for (List<Player> pair in pairings) {
@@ -26,11 +28,24 @@ class MatchSummary extends StatelessWidget {
       Player loser = pair[0] == winner ? pair[1] : pair[0];
       winnerNames.add(winner.name);
       loserNames.add(loser.name);
+      String winnerSchool = winner.school;
+      String schoolCode = "";
+      for (String word in winnerSchool.split(" ")) {
+        schoolCode += word[0].toUpperCase();
+      }
       results.add(Padding(
           padding: const EdgeInsets.only(top: 10, bottom: 10),
-          child: Text(
-              "${winner.name} beats ${loser.name} ${scores[winner]} - ${scores[loser]}",
-              style: textFieldStyle)));
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text(
+                "${winner.name} beats ${loser.name} ${scores[winner]} - ${scores[loser]}",
+                style: textFieldStyle),
+            Text("+${calculatePoints(winner.school)} $schoolCode",
+                style: const TextStyle(
+                    fontSize: 30,
+                    color: Colors.green,
+                    fontWeight: FontWeight.w600))
+          ])));
     }
   }
 

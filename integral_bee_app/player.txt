@@ -1,12 +1,5 @@
-Alexander Litchev,Beths Grammar School,13,true
-Bernard Poh,St Olave's Grammar School,13,true
-Samyam Pandey,St Olave's Grammar School,13,true
-Jeron Justin,St Olave's Grammar School,13,true
-Roy Le,St Olave's Grammar School,13,false
-Anish Baskaran,St Olave's Grammar School,13,true
-Joel Hamilton,Townley Grammar School,12,true
-Ovie Ogberahwe,Beths Grammar School,13,true
-Elia Battaglia,St Olave's Grammar School,13,true,
-Vladimir Filip,Townley Grammar School,13,true
 Dinu Filip,Beths Grammar School,13,true
-Other,Beths Grammar School,13,true
+Vlad Filip,Beths Grammar School,13,true
+Elia Battaglia,Beths Grammar School,13,true
+Alex Litchev,Beths Grammar School,13,true
+Ed Keeling,Beths Grammar School,12,false

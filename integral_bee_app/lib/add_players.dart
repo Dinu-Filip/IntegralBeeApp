@@ -291,7 +291,16 @@ class AddPlayerState extends State<AddPlayer> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: playerEntries)))
                 ])),
-            const SizedBox(height: 150)
+            const SizedBox(height: 30),
+            SizedBox(
+                height: 40,
+                width: 300,
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Back", style: TextStyle(fontSize: 20)))),
+            const SizedBox(height: 100)
           ]));
     }
   }

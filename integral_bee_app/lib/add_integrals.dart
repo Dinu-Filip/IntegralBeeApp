@@ -116,6 +116,7 @@ class AddIntegralsState extends State<AddIntegrals> {
           fileValid = true;
         }
       }
+
       for (RichText error in errorData) {
         errors.add(Padding(
             padding: const EdgeInsets.all(10),
@@ -394,6 +395,15 @@ class AddIntegralsState extends State<AddIntegrals> {
                           style: TextStyle(fontSize: 20)),
                       onPressed: () => {generateIntegralDisplays()})))
         ]),
+        const SizedBox(height: 20),
+        SizedBox(
+            height: 40,
+            width: 300,
+            child: TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("Back", style: TextStyle(fontSize: 20)))),
         const SizedBox(height: 70)
       ],
     );

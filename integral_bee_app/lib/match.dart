@@ -17,6 +17,7 @@ class Match extends StatefulWidget {
   final Function updateRounds;
   final Function addUsedIntegral;
   final Function endMatch;
+  final Function errorMoreIntegrals;
 
   const Match(
       {super.key,
@@ -27,7 +28,8 @@ class Match extends StatefulWidget {
       required this.numIntegrals,
       required this.updateRounds,
       required this.endMatch,
-      required this.addUsedIntegral});
+      required this.addUsedIntegral,
+      required this.errorMoreIntegrals});
 
   @override
   State<Match> createState() => MatchState();
@@ -64,15 +66,20 @@ class MatchState extends State<Match> {
     List<Integral> assignedIntegrals = [];
     bool selectTiebreak =
         numIntegralsPlayed >= widget.numIntegrals ? true : false;
+    for (List<Player> pair in currentIntegrals.keys) {
+      currentIntegrals[pair] = null;
+    }
     for (List<Player> pairing in remainingPairings) {
       int idx = 0;
       //
       // If all the integrals at a particular level of difficulty have been exhausted
       // then should go down one level of difficulty
       //
-      if (widget.integrals[currentDifficulty]!.isEmpty) {
+      while (widget.integrals[currentDifficulty]!.isEmpty &&
+          currentDifficulty != "Easy") {
         currentDifficulty = reduceDifficulty(currentDifficulty);
       }
+
       while (idx < widget.integrals[currentDifficulty]!.length) {
         Integral currentIntegral = widget.integrals[currentDifficulty]![idx];
         //
@@ -130,7 +137,7 @@ class MatchState extends State<Match> {
         assignedIntegrals.map((integral) => integral.integral).toList());
   }
 
-  Widget createIntegralDisplays() {
+  Widget? createIntegralDisplays() {
     //
     // Integral displays show the integrals in play
     //
@@ -141,7 +148,10 @@ class MatchState extends State<Match> {
         rawIntegral.add(integral);
       }
     }
-    if (rawIntegral.length == 1) {
+    if (rawIntegral.isEmpty) {
+      widget.errorMoreIntegrals();
+      return null;
+    } else if (rawIntegral.length == 1) {
       //
       // Shows single integral across entire screen
       //
@@ -202,6 +212,7 @@ class MatchState extends State<Match> {
         const Spacer(flex: 1)
       ]);
     }
+
     return integralDisplays;
   }
 
@@ -331,16 +342,19 @@ class MatchState extends State<Match> {
 
   void loadMatch() {
     initialised = true;
-    setState(() {
-      currentStage = Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(child: createIntegralDisplays()),
-            IntegralTimer(
-                time: timeLimit, showIntegralSummary: showIntegralSummary)
-          ]);
-    });
+    Widget? integralDisplays = createIntegralDisplays();
+    if (integralDisplays != null) {
+      setState(() {
+        currentStage = Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(child: createIntegralDisplays()!),
+              IntegralTimer(
+                  time: timeLimit, showIntegralSummary: showIntegralSummary)
+            ]);
+      });
+    }
   }
 
   void initialisePlayerWins() {

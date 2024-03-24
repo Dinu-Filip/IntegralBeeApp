@@ -53,97 +53,126 @@ class _MyHomePageState extends State<MyHomePage> {
     //
     // Creates player objects from previous player data
     //
-    for (Map<String, dynamic> playerData in jsonContent["participants"]) {
-      jsonToPlayer[playerData] = Player(
-          name: playerData["name"],
-          school: playerData["school"],
-          year: playerData["year"],
-          studiesFM: playerData["studiesFM"]);
-    }
-    List<List<dynamic>> matches = [];
-    for (List<dynamic> round in jsonContent["matches"]) {
-      matches.add([]);
+    if (jsonContent.keys.isNotEmpty) {
+  for (Map<String, dynamic> playerData in jsonContent["participants"]) {
+        jsonToPlayer[playerData] = Player(
+            name: playerData["name"],
+            school: playerData["school"],
+            year: playerData["year"],
+            studiesFM: playerData["studiesFM"],
+            lastRound: playerData["lastRound"]);
+      }
+      List<List<dynamic>> matches = [];
+      for (List<dynamic> round in jsonContent["matches"]) {
+        matches.add([]);
 
-      for (List<dynamic> pairing in round) {
-        Player? player1;
-        Player? player2;
-        for (Map<String, dynamic> playerData in jsonToPlayer.keys) {
-          if (mapEquals(playerData, pairing[0])) {
-            player1 = jsonToPlayer[playerData]!;
-          }
-          if (pairing.length == 2) {
-            if (mapEquals(playerData, pairing[1])) {
-              player2 = jsonToPlayer[playerData]!;
+        for (List<dynamic> pairing in round) {
+          Player? player1;
+          Player? player2;
+          for (Map<String, dynamic> playerData in jsonToPlayer.keys) {
+            if (mapEquals(playerData, pairing[0])) {
+              player1 = jsonToPlayer[playerData]!;
+            }
+            if (pairing.length == 2) {
+              if (mapEquals(playerData, pairing[1])) {
+                player2 = jsonToPlayer[playerData]!;
+              }
             }
           }
-        }
-        if (player2 != null) {
-          matches.last.add([player1!, player2]);
-        } else {
-          matches.last.add([player1!]);
-        }
-      }
-    }
-    List<List<Player>> currentFinished = [];
-    for (List<dynamic> pairings in jsonContent["currentFinished"]) {
-      late Player player1;
-      late Player player2;
-      for (Map<String, dynamic> playerData in jsonToPlayer.keys) {
-        if (mapEquals(playerData, pairings[0])) {
-          player1 = jsonToPlayer[playerData]!;
-        } else if (mapEquals(playerData, pairings[1])) {
-          player2 = jsonToPlayer[playerData]!;
+          if (player2 != null) {
+            matches.last.add([player1!, player2]);
+          } else {
+            matches.last.add([player1!]);
+          }
         }
       }
-      for (List<Player> match in matches[jsonContent["currentRound"]]) {
-        if (match[0] == player1 && match[1] == player2) {
-          currentFinished.add(match);
+      List<List<Player>> currentFinished = [];
+      for (List<dynamic> pairings in jsonContent["currentFinished"]) {
+        late Player player1;
+        late Player player2;
+        for (Map<String, dynamic> playerData in jsonToPlayer.keys) {
+          if (mapEquals(playerData, pairings[0])) {
+            player1 = jsonToPlayer[playerData]!;
+          } else if (mapEquals(playerData, pairings[1])) {
+            player2 = jsonToPlayer[playerData]!;
+          }
+        }
+        for (List<Player> match in matches[jsonContent["currentRound"]]) {
+          if (match[0] == player1 && match[1] == player2) {
+            currentFinished.add(match);
+          }
         }
       }
-    }
 
-    List<List<Player>> unfinishedMatches = [];
-    for (List<dynamic> pairings in jsonContent["unfinishedMatches"]) {
-      late Player player1;
-      late Player player2;
-      for (Map<String, dynamic> playerData in jsonToPlayer.keys) {
-        if (mapEquals(playerData, pairings[0])) {
-          player1 = jsonToPlayer[playerData]!;
-        } else if (mapEquals(playerData, pairings[1])) {
-          player2 = jsonToPlayer[playerData]!;
+      List<List<Player>> unfinishedMatches = [];
+      for (List<dynamic> pairings in jsonContent["unfinishedMatches"]) {
+        late Player player1;
+        late Player player2;
+        for (Map<String, dynamic> playerData in jsonToPlayer.keys) {
+          if (mapEquals(playerData, pairings[0])) {
+            player1 = jsonToPlayer[playerData]!;
+          } else if (mapEquals(playerData, pairings[1])) {
+            player2 = jsonToPlayer[playerData]!;
+          }
+        }
+        for (List<Player> match in matches[jsonContent["currentRound"]]) {
+          if (match[0] == player1 && match[1] == player2) {
+            unfinishedMatches.add(match);
+          }
         }
       }
-      for (List<Player> match in matches[jsonContent["currentRound"]]) {
-        if (match[0] == player1 && match[1] == player2) {
-          unfinishedMatches.add(match);
+      List<Player> participants = [];
+      for (Map<String, dynamic> player in jsonContent["participants"]) {
+        for (Map<String, dynamic> playerData in jsonToPlayer.keys) {
+          if (mapEquals(playerData, player)) {
+            participants.add(jsonToPlayer[playerData]!);
+          }
         }
       }
-    }
-    List<Player> participants = [];
-    for (Map<String, dynamic> player in jsonContent["participants"]) {
-      for (Map<String, dynamic> playerData in jsonToPlayer.keys) {
-        if (mapEquals(playerData, player)) {
-          participants.add(jsonToPlayer[playerData]!);
-        }
-      }
-    }
 
-    onPageSelect(Round(
-      matches: matches,
-      currentFinished: currentFinished,
-      unfinishedMatches: unfinishedMatches,
-      schoolPoints: jsonContent["schoolPoints"],
-      assignedIntegrals: jsonContent["assignedIntegrals"],
-      currentRound: jsonContent["currentRound"],
-      participants: participants,
-      loadFromPrevious: true,
-    ));
+      onPageSelect(Round(
+        matches: matches,
+        currentFinished: currentFinished,
+        unfinishedMatches: unfinishedMatches,
+        schoolPoints: jsonContent["schoolPoints"],
+        assignedIntegrals: jsonContent["assignedIntegrals"],
+        currentRound: jsonContent["currentRound"],
+        participants: participants,
+        loadFromPrevious: true,
+      ));
+      }
+
+    
+  }
+
+  Future<int> initialise() async {
+    var settings = File("settings.json");
+    bool settingsExists = await settings.exists();
+    if (!settingsExists) {
+      await updateSettings();
+    }
+    var integrals = File("integrals.txt");
+    bool integralsExists = await integrals.exists();
+    if (!integralsExists) {
+      await integrals.writeAsString("");
+    }
+    var players = File("player.txt");
+    bool playersExists = await players.exists();
+    if (!playersExists) {
+      await players.writeAsString("");
+    }
+    var compData = File("compData.json");
+    bool compDataExists = await compData.exists();
+    if (!compDataExists) {
+      await compData.writeAsString(json.encode({}));
+    }
+    return 1;
   }
 
   @override
   Widget build(BuildContext context) {
     if (!initialised) {
-      loadSettings().then((r) {
+      initialise().then((r) {
         setState(() {
           initialised = true;
         });

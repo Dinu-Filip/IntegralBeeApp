@@ -10,6 +10,7 @@ class RoundPreview extends StatefulWidget {
   final List<dynamic> roundData;
   final Function startRound;
   final Function showDraw;
+  final Map<String, dynamic> schoolPoints;
 
   const RoundPreview(
       {super.key,
@@ -19,14 +20,14 @@ class RoundPreview extends StatefulWidget {
       required this.integralTime,
       required this.roundData,
       required this.startRound,
-      required this.showDraw});
+      required this.showDraw,
+      required this.schoolPoints});
 
   @override
   State<RoundPreview> createState() => RoundPreviewState();
 }
 
 class RoundPreviewState extends State<RoundPreview> {
-  static const List<String> schools = ["Beths Grammar School"];
   Map<String, String> schoolCode = {};
 
   @override
@@ -37,6 +38,36 @@ class RoundPreviewState extends State<RoundPreview> {
         initials += word[0].toUpperCase();
       }
       schoolCode[school] = initials;
+    }
+    List<int> points = [];
+    for (int n in widget.schoolPoints.values) {
+      points.add(n);
+    }
+    points.sort((a, b) => b.compareTo(a));
+    List<String> orderedSchools = [];
+    for (int point in points) {
+      for (String school in widget.schoolPoints.keys) {
+        if (widget.schoolPoints[school] == point &&
+            !orderedSchools.contains(school)) {
+          orderedSchools.add(school);
+        }
+      }
+    }
+    List<Padding> schoolDisplays = [];
+    for (String school in orderedSchools) {
+      schoolDisplays.add(Padding(
+          padding: const EdgeInsets.all(10),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text(school,
+                style:
+                    const TextStyle(fontSize: 25, fontWeight: FontWeight.w500)),
+            Text(widget.schoolPoints[school].toString(),
+                style: const TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.indigo))
+          ])));
     }
 
     return ListView(
@@ -89,6 +120,15 @@ class RoundPreviewState extends State<RoundPreview> {
                               }())
                           .toList())
                 ])),
+        const Padding(
+            padding: EdgeInsets.all(15),
+            child: FractionallySizedBox(
+                widthFactor: 0.6, child: Divider(color: Colors.black))),
+        const Text("Leaderboard",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 40, fontWeight: FontWeight.w600)),
+        FractionallySizedBox(
+            widthFactor: 0.6, child: Column(children: schoolDisplays)),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Padding(
               padding: const EdgeInsets.only(top: 20),

@@ -96,6 +96,9 @@ class DrawState extends State<Draw> {
 
     double bracketWidth = 200;
 
+    brackets.add(const SizedBox(width: 50));
+    double height = draw[0].length * 80.0;
+
     for (int i = 0; i < draw.length; i++) {
       if (draw[i].isEmpty) {
         break;
@@ -169,7 +172,7 @@ class DrawState extends State<Draw> {
         }
       }
       brackets.add(SizedBox(
-          height: MediaQuery.of(context).size.height,
+          height: height,
           width: bracketWidth,
           child: Column(
               children: <Widget>[
@@ -185,7 +188,7 @@ class DrawState extends State<Draw> {
                   pairings)));
       brackets.add(SizedBox(
           width: 50,
-          height: MediaQuery.of(context).size.height,
+          height: height,
           child:
               Column(children: <Widget>[const SizedBox(height: 50)] + lines)));
     }

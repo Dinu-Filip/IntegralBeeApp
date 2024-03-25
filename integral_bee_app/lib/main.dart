@@ -54,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // Creates player objects from previous player data
     //
     if (jsonContent.keys.isNotEmpty) {
-  for (Map<String, dynamic> playerData in jsonContent["participants"]) {
+      for (Map<String, dynamic> playerData in jsonContent["participants"]) {
         jsonToPlayer[playerData] = Player(
             name: playerData["name"],
             school: playerData["school"],
@@ -140,9 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
         participants: participants,
         loadFromPrevious: true,
       ));
-      }
-
-    
+    }
   }
 
   Future<int> initialise() async {
@@ -150,6 +148,8 @@ class _MyHomePageState extends State<MyHomePage> {
     bool settingsExists = await settings.exists();
     if (!settingsExists) {
       await updateSettings();
+    } else {
+      await loadSettings();
     }
     var integrals = File("integrals.txt");
     bool integralsExists = await integrals.exists();

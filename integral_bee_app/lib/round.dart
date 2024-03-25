@@ -190,9 +190,8 @@ class RoundState extends State<Round> {
             difficulty: intData[2],
             played: false,
             years: intData[3],
-            isTiebreak: intData.length == 4 ? false : true,
+            isTiebreak: intData[4] == "true" ? true : false,
             idx: currentIdx));
-        // isTiebreak: intData[4] == "true" ? true : false
         remainingIntegrals[integrals.last.difficulty]!.add(integrals.last);
       }
     }
@@ -620,15 +619,17 @@ class RoundState extends State<Round> {
   }
 
   void addUsedIntegral(List<String> integrals) async {
-    //
-    // Adds shown integrals to external file
-    //
-    var file = File("compData.json");
-    String jsonString = await file.readAsString();
-    Map<String, dynamic> jsonContent = json.decode(jsonString);
-    jsonContent["assignedIntegrals"] += integrals;
-    jsonString = json.encode(jsonContent);
-    file.writeAsString(jsonString);
+    if (integrals.isNotEmpty) {
+      //
+      // Adds shown integrals to external file
+      //
+      var file = File("compData.json");
+      String jsonString = await file.readAsString();
+      Map<String, dynamic> jsonContent = json.decode(jsonString);
+      jsonContent["assignedIntegrals"] += integrals;
+      jsonString = json.encode(jsonContent);
+      file.writeAsString(jsonString);
+    }
   }
 
   void updateCompPairData() async {

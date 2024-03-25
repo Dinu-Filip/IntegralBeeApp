@@ -66,26 +66,30 @@ class MatchState extends State<Match> {
     List<Integral> assignedIntegrals = [];
     bool selectTiebreak =
         numIntegralsPlayed >= widget.numIntegrals ? true : false;
+
     for (List<Player> pair in currentIntegrals.keys) {
       currentIntegrals[pair] = null;
     }
+
     for (List<Player> pairing in remainingPairings) {
       int idx = 0;
       //
       // If all the integrals at a particular level of difficulty have been exhausted
       // then should go down one level of difficulty
       //
+      currentDifficulty = widget.difficulty;
+
       while (widget.integrals[currentDifficulty]!.isEmpty &&
           currentDifficulty != "Easy") {
         currentDifficulty = reduceDifficulty(currentDifficulty);
       }
-
       while (idx < widget.integrals[currentDifficulty]!.length) {
         Integral currentIntegral = widget.integrals[currentDifficulty]![idx];
         //
-        // Assigns FM integral only if both players in Year 13 and study FM
+        // Both integral and match must be tiebreak or neither
         //
-        if (!selectTiebreak || currentIntegral.isTiebreak) {
+        if ((!selectTiebreak && !currentIntegral.isTiebreak) ||
+            (selectTiebreak && currentIntegral.isTiebreak)) {
           if (currentIntegral.years == "13FM") {
             if (pairing[0].year == Years.year13.year &&
                 pairing[0].studiesFM &&
@@ -121,13 +125,22 @@ class MatchState extends State<Match> {
         idx += 1;
         if (idx == widget.integrals[currentDifficulty]!.length) {
           //
-          // If no tiebreak integrals at current difficulty level, then will go through
-          // other integrals at same difficulty
+          // If no integrals found at lowest difficulty
           //
+
           if (selectTiebreak) {
             selectTiebreak = false;
           } else {
-            currentDifficulty = reduceDifficulty(currentDifficulty);
+            if (currentDifficulty == "Easy") {
+              break;
+            }
+            //
+            // If no tiebreak integrals at current difficulty level, then will go through
+            // other integrals at same difficulty
+            //
+            else {
+              currentDifficulty = reduceDifficulty(currentDifficulty);
+            }
           }
           idx = 0;
         }

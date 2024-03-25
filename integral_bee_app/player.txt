@@ -1,5 +1,19 @@
+Joseph Bakundukize,Bexley Grammar School,13,true
+Malin Karasimov,Bexley Grammar School,13,true
+Max Jansen,Bexley Grammar School,13,true
+John Beckley,Bexley Grammar School,13,true
+Andy Yu,Bexley Grammar School,12,true
+Michael Shoniwa,Bexley Grammar School,12,true
+Eashan Patel,Bexley Grammar School,12,true
+Frank Gubars,St Olave's Grammar School,13,true
+Ojas Tiwari,St Olave's Grammar School,13,true
+Jay Osborne,St Olave's Grammar School,13,true
+Ben Joshua Yip,St Olave's Grammar School,13,true
+Kirollos Mankaruis,St Olave's Grammar School,12,true
+Aashman Kumar,St Olave's Grammar School,12,true
+Elia Battaglia,Beths Grammar School,13,true
 Dinu Filip,Beths Grammar School,13,true
 Vlad Filip,Beths Grammar School,13,true
-Elia Battaglia,Beths Grammar School,13,true
 Alex Litchev,Beths Grammar School,13,true
-Ed Keeling,Beths Grammar School,12,false
+Emir Hamad,Beths Grammar School,12,true
+Edmund Keeling,Beths Grammar School,12,true

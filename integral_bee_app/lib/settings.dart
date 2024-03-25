@@ -56,6 +56,7 @@ Future<int> updateSettings() async {
   };
   var jsonData = json.encode(settingsData);
   await file.writeAsString(jsonData);
+  await loadSettings();
   return 1;
 }
 
@@ -142,6 +143,7 @@ class SettingsState extends State<Settings> {
       if (int.tryParse(time) == null) {
         errors.add("$time in times per round is not a valid integer");
         valid = false;
+      } else if (int.tryParse(time)! < 10 || int.tryParse(time)! > 600) {
         errors
             .add("$time in times per round must be between 10 and 600 seconds");
         valid = false;
@@ -195,12 +197,12 @@ class SettingsState extends State<Settings> {
         alignment: Alignment.topCenter,
         widthFactor: 0.5,
         child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-          const StageTitle1(text: "Settings"),
+          const StageTitle2(text: "Settings"),
           const SizedBox(height: 40),
           Expanded(
               flex: 5,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: ListView(
+                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(children: [
                       Expanded(
@@ -276,11 +278,12 @@ class SettingsState extends State<Settings> {
                                   children: [
                                     const Icon(Icons.error, color: Colors.red),
                                     const SizedBox(width: 15),
-                                    Text(error,
-                                        style: const TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.red,
-                                            fontWeight: FontWeight.w600))
+                                    Flexible(
+                                        child: Text(error,
+                                            style: const TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.red,
+                                                fontWeight: FontWeight.w600)))
                                   ]))
                           .toList());
                 }

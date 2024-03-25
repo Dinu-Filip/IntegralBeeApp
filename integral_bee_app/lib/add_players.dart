@@ -178,7 +178,7 @@ class AddPlayerState extends State<AddPlayer> {
           child: Column(children: [
             const Padding(
                 padding: EdgeInsets.all(40),
-                child: StageTitle1(text: "Add student")),
+                child: StageTitle2(text: "Add student")),
             Expanded(
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -186,8 +186,8 @@ class AddPlayerState extends State<AddPlayer> {
                     children: [
                   Expanded(
                       flex: 4,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                      child: ListView(
+                          //crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Padding(
                                 padding:

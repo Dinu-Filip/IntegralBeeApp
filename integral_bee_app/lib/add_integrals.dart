@@ -261,7 +261,7 @@ class AddIntegralsState extends State<AddIntegrals> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const StageTitle1(text: "Add integrals"),
+        const StageTitle2(text: "Add integrals"),
         const SizedBox(height: 20),
         SizedBox(
           height: MediaQuery.of(context).size.height / 2.5,
@@ -374,25 +374,27 @@ class AddIntegralsState extends State<AddIntegrals> {
         const Spacer(),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           SizedBox(
-              height: 45,
               width: MediaQuery.of(context).size.width / 5,
               child: Tooltip(
                   message:
                       "Shows integral and answer for marking. LaTeX must be compiled separately.\nRequires geometry, amsmath, longtable, mathtools and amssymb packages.",
                   child: TextButton(
-                      child: const Text("Generate integral/answer LaTeX",
-                          style: TextStyle(fontSize: 20)),
+                      child: const Padding(
+                          padding: EdgeInsets.only(top: 6, bottom: 6),
+                          child: Text(("Generate integral/answer LaTeX"),
+                              style: TextStyle(fontSize: 20))),
                       onPressed: () => {generateAnswerDoc()}))),
           const SizedBox(width: 40),
           SizedBox(
-              height: 45,
               width: MediaQuery.of(context).size.width / 5,
               child: Tooltip(
                   message:
                       "Shows integral on one page and answer on the next. LaTeX must be compiled separately.\nRequires amsmath and geometry packages",
                   child: TextButton(
-                      child: const Text("Generate integral displays LaTeX",
-                          style: TextStyle(fontSize: 20)),
+                      child: const Padding(
+                          padding: EdgeInsets.only(top: 6, bottom: 6),
+                          child: Text("Generate integral displays LaTeX",
+                              style: TextStyle(fontSize: 20))),
                       onPressed: () => {generateIntegralDisplays()})))
         ]),
         const SizedBox(height: 20),

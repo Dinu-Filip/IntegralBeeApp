@@ -79,7 +79,9 @@ class RoundPreviewState extends State<RoundPreview> {
             child: FractionallySizedBox(
                 widthFactor: 0.6, child: Divider(color: Colors.black))),
         StageHeader(text: "${widget.numIntegrals} integrals"),
-        StageHeader(text: "${widget.integralTime / 60} minutes per integral"),
+        StageHeader(
+            text:
+                "${((widget.integralTime / 60) * 100).round() / 100} minutes per integral"),
         const Padding(
             padding: EdgeInsets.all(15),
             child: FractionallySizedBox(

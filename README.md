@@ -1,4 +1,4 @@
-# IntegralBeeApp
+# Integral Bee App
 
 Windows desktop application that runs an MIT-style knockout integration bee. Players solve integrals in one-on-one matches under timed conditions.
 

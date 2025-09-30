@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:integral_bee_app/integral.dart';
-import 'package:integral_bee_app/match_preview.dart';
-import 'package:integral_bee_app/match_summary.dart';
-import 'package:integral_bee_app/round_preview.dart';
-import 'package:integral_bee_app/tournament_summary.dart';
+import 'package:integral_bee_app/src/integral/integral.dart';
+import 'package:integral_bee_app/src/match/match_preview.dart';
+import 'package:integral_bee_app/src/match/match_summary.dart';
+import 'package:integral_bee_app/src/round/round_preview.dart';
+import 'package:integral_bee_app/src/tournament_summary.dart';
+import 'package:integral_bee_app/src/match/match.dart';
+import 'package:integral_bee_app/src/player.dart';
+import 'package:integral_bee_app/src/draw.dart';
+import 'package:integral_bee_app/src/settings/settings.dart';
+
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'dart:math';
-import 'package:integral_bee_app/match.dart';
-import 'package:integral_bee_app/player.dart';
-import 'package:integral_bee_app/draw.dart';
-import 'package:integral_bee_app/settings.dart';
 
 class Round extends StatefulWidget {
   final List<List<dynamic>>? matches;

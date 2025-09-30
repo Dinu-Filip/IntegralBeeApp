@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:integral_bee_app/player.dart';
+import 'package:integral_bee_app/src/player.dart';
 
 class MatchSummary extends StatelessWidget {
   final String round;

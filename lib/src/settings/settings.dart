@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:integral_bee_app/standard_widgets.dart';
+import 'package:integral_bee_app/src/standard_widgets.dart';
 
 enum Rounds {
   quarterfinalRound("Quarterfinal"),

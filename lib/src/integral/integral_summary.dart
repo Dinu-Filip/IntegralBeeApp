@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_math_fork/flutter_math.dart';
-import 'package:integral_bee_app/player.dart';
-import 'package:integral_bee_app/integral.dart';
-import 'package:integral_bee_app/standard_widgets.dart';
+import 'package:integral_bee_app/src/player.dart';
+import 'package:integral_bee_app/src/integral/integral.dart';
+import 'package:integral_bee_app/src/standard_widgets.dart';
 
 class IntegralSummary extends StatefulWidget {
   final Map<List<Player>, Integral?> integralData;

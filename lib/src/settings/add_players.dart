@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:integral_bee_app/standard_widgets.dart';
+import 'package:integral_bee_app/src/standard_widgets.dart';
 
 class AddPlayer extends StatefulWidget {
   const AddPlayer({super.key});

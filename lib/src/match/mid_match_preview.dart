@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:integral_bee_app/player.dart';
-import 'package:integral_bee_app/standard_widgets.dart';
+import 'package:integral_bee_app/src/player.dart';
+import 'package:integral_bee_app/src/standard_widgets.dart';
 
 class MidMatchPreview extends StatelessWidget {
   final List<List<Player>> pairings;

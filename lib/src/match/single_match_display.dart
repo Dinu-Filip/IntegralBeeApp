@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:integral_bee_app/player.dart';
+import 'package:integral_bee_app/src/player.dart';
 
 class SingleMatchDisplay extends StatelessWidget {
   final List<Player> players;

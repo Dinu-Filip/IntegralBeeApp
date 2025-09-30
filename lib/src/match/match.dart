@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:integral_bee_app/integral_summary.dart';
-import 'package:integral_bee_app/integral_timer.dart';
-import 'package:integral_bee_app/mid_match_preview.dart';
-import 'package:integral_bee_app/integral.dart';
-import 'package:integral_bee_app/settings.dart';
-import 'package:integral_bee_app/match_countdown.dart';
-import 'package:integral_bee_app/player.dart';
-import 'package:integral_bee_app/single_integral_display.dart';
+import 'package:integral_bee_app/src/integral/integral_summary.dart';
+import 'package:integral_bee_app/src/integral/integral_timer.dart';
+import 'package:integral_bee_app/src/match/mid_match_preview.dart';
+import 'package:integral_bee_app/src/integral/integral.dart';
+import 'package:integral_bee_app/src/settings/settings.dart';
+import 'package:integral_bee_app/src/match/match_countdown.dart';
+import 'package:integral_bee_app/src/player.dart';
+import 'package:integral_bee_app/src/integral/single_integral_display.dart';
 
 class Match extends StatefulWidget {
   final Map<String, List<Integral>> integrals;

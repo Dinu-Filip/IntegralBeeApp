@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:integral_bee_app/standard_widgets.dart';
+import 'package:integral_bee_app/src/standard_widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';

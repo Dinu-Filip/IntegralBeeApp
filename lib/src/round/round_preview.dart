@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:integral_bee_app/settings.dart';
-import 'package:integral_bee_app/standard_widgets.dart';
+import 'package:integral_bee_app/src/settings/settings.dart';
+import 'package:integral_bee_app/src/standard_widgets.dart';
 
 class RoundPreview extends StatefulWidget {
   final String round;

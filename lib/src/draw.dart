@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:integral_bee_app/player.dart';
+import 'package:integral_bee_app/src/player.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:integral_bee_app/standard_widgets.dart';
+import 'package:integral_bee_app/src/standard_widgets.dart';
 
 class Draw extends StatefulWidget {
   final List<List<dynamic>> draw;

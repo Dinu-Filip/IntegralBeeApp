@@ -1,15 +1,15 @@
+import 'package:integral_bee_app/src/settings/add_integrals.dart';
+import 'package:integral_bee_app/src/settings/add_players.dart';
+import 'package:integral_bee_app/src/player.dart';
+import 'package:integral_bee_app/src/settings/settings.dart';
+import 'package:integral_bee_app/src/round/round.dart';
+
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:integral_bee_app/add_integrals.dart';
-import 'package:integral_bee_app/add_players.dart';
-import 'package:integral_bee_app/player.dart';
 import 'dart:convert';
-import 'package:integral_bee_app/round.dart';
 import 'dart:io';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
-
-import 'package:integral_bee_app/settings.dart';
 
 void main() {
   runApp(const MyApp());

@@ -1,6 +1,6 @@
 # IntegralBeeApp
 
-Desktop application for Windows that runs an MIT-style knockout integration bee. Players solve integrals in one-on-one matches under timed conditions.
+Windows desktop application that runs an MIT-style knockout integration bee. Players solve integrals in one-on-one matches under timed conditions.
 
 ## Features
 - Automatic timer with pause and early finish

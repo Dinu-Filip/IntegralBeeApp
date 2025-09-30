@@ -1,0 +1,37 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Flutter Windows
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-check:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Flutter setup
+        uses: subosito/flutter-action@v2
+        with:
+          cache: true
+
+      - name: Windows enable
+        run: flutter config --enable-windows-desktop
+
+      - name: Flutter dependencies
+        run: flutter pub get
+
+      - name: Build
+        run: flutter build windows --release
+
+      - name: Dart format
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Flutter/Dart lints
+        run: flutter analyze

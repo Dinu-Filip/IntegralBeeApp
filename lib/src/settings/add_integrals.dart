@@ -174,7 +174,7 @@ class AddIntegralsState extends State<AddIntegrals> {
       }
       int idx = 1;
       for (String difficulty in difficulties.keys) {
-        newFileData += "\\section*{$difficulty} \n" +
+        newFileData += "\\section*{$difficulty} \n"
             r"""
                         \renewcommand*{\arraystretch}{2}
                         \begin{longtable}{l c c}

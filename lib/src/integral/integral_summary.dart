@@ -56,41 +56,37 @@ class IntegralSummaryState extends State<IntegralSummary> {
                         child: Math.tex(answer,
                             textStyle: const TextStyle(fontSize: 45))))),
             Expanded(
-                flex: 1,
-                child: ListTile(
-                    title: Text(player1.name, style: nameStyle),
-                    leading: Radio<Player?>(
-                        value: player1,
-                        groupValue: rawResults[currentPair],
-                        onChanged: (Player? value) {
-                          setState(() {
-                            rawResults[currentPair] = value;
-                          });
-                        }))),
-            Expanded(
-                flex: 1,
-                child: ListTile(
-                    title: Text(player2.name, style: nameStyle),
-                    leading: Radio<Player?>(
-                        value: player2,
-                        groupValue: rawResults[currentPair],
-                        onChanged: (Player? value) {
-                          setState(() {
-                            rawResults[currentPair] = value;
-                          });
-                        }))),
-            Expanded(
-                flex: 1,
-                child: ListTile(
-                    title: Text("None", style: nameStyle),
-                    leading: Radio<Player?>(
-                        value: null,
-                        groupValue: rawResults[currentPair],
-                        onChanged: (Player? value) {
-                          setState(() {
-                            rawResults[currentPair] = value;
-                          });
-                        })))
+                flex: 3,
+                child: RadioGroup(
+                    onChanged: (Player? value) {
+                      setState(() {
+                        rawResults[currentPair] = value;
+                      });
+                    },
+                    groupValue: rawResults[currentPair],
+                    child: Row(
+                      children: [
+                        Expanded(
+                            flex: 1,
+                            child: ListTile(
+                                title: Text(player1.name, style: nameStyle),
+                                leading: Radio<Player?>(
+                                  value: player1,
+                                ))),
+                        Expanded(
+                            flex: 1,
+                            child: ListTile(
+                                title: Text(player2.name, style: nameStyle),
+                                leading: Radio<Player?>(value: player2))),
+                        Expanded(
+                            flex: 1,
+                            child: ListTile(
+                                title: Text("None", style: nameStyle),
+                                leading: Radio<Player?>(
+                                  value: null,
+                                )))
+                      ],
+                    ))),
           ])));
     }
     return integralSummaries;

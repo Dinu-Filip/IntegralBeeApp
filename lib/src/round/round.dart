@@ -684,9 +684,7 @@ class RoundState extends State<Round> {
 
   Future<int> clearCompData() async {
     var file = File("compData.json");
-    String jsonString = await file.readAsString();
-    Map<String, dynamic> jsonContent = json.decode(jsonString);
-    jsonContent = {
+    Map<String, dynamic> jsonContent = {
       "matches": [],
       "unfinishedMatches": [],
       "currentFinished": [],
@@ -695,7 +693,7 @@ class RoundState extends State<Round> {
       "schoolPoints": {},
       "participants": []
     };
-    jsonString = json.encode(jsonContent);
+    String jsonString = json.encode(jsonContent);
     await file.writeAsString(jsonString);
     return 1;
   }

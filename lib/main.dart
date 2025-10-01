@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final currentWindow = null;
   static const double paddingVal = 20;
 
-  void onPageSelect(page) {
+  void onPageSelect(StatefulWidget page) {
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -48,6 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void loadFromPrevious() async {
     String compData = await File("compData.json").readAsString();
+    if (compData == "") return;
     Map<String, dynamic> jsonContent = json.decode(compData);
     Map<Map<String, dynamic>, Player> jsonToPlayer = {};
     //

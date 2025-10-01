@@ -10,7 +10,7 @@ on:
   pull_request:
 
 jobs:
-  build-check:
+  build-format:
     runs-on: windows-latest
 
     steps:
@@ -19,8 +19,12 @@ jobs:
       - name: Flutter setup
         uses: subosito/flutter-action@v2
         with:
+          channel: stable
           cache: true
 
+      - name: Precache artefacts
+        run: flutter precache --windows
+        
       - name: Windows enable
         run: flutter config --enable-windows-desktop
 

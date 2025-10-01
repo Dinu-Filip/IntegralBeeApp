@@ -134,7 +134,7 @@ class RoundState extends State<Round> {
             }())
         .toList();
 
-    var file = File("compData.json");
+    var file = File("storage/compData.json");
     String jsonString = await file.readAsString();
     Map<String, dynamic> jsonContent = json.decode(jsonString);
     jsonContent["participants"] =
@@ -624,7 +624,7 @@ class RoundState extends State<Round> {
       //
       // Adds shown integrals to external file
       //
-      var file = File("compData.json");
+      var file = File("storage/compData.json");
       String jsonString = await file.readAsString();
       Map<String, dynamic> jsonContent = json.decode(jsonString);
       jsonContent["assignedIntegrals"] += integrals;
@@ -634,7 +634,7 @@ class RoundState extends State<Round> {
   }
 
   void updateCompPairData() async {
-    var file = File("compData.json");
+    var file = File("storage/compData.json");
     String jsonString = await file.readAsString();
     Map<String, dynamic> jsonContent = json.decode(jsonString);
     jsonContent["unfinishedMatches"] =
@@ -667,7 +667,7 @@ class RoundState extends State<Round> {
   }
 
   Future<int> updateCompRoundData() async {
-    var file = File("compData.json");
+    var file = File("storage/compData.json");
     String jsonString = await file.readAsString();
     Map<String, dynamic> jsonContent = json.decode(jsonString);
     jsonContent["unfinishedMatches"] =
@@ -683,7 +683,7 @@ class RoundState extends State<Round> {
   }
 
   Future<int> clearCompData() async {
-    var file = File("compData.json");
+    var file = File("storage/compData.json");
     Map<String, dynamic> jsonContent = {
       "matches": [],
       "unfinishedMatches": [],

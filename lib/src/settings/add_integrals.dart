@@ -45,7 +45,7 @@ class AddIntegralsState extends State<AddIntegrals> {
       if (fileValid && !showSaved) {
         var newFile = File(newPath!);
         String newFileData = await newFile.readAsString();
-        var currentFile = File("integrals.txt");
+        var currentFile = File("storage/integrals.txt");
         await currentFile.writeAsString(newFileData);
         setState(() {
           showSaved = true;
@@ -143,7 +143,7 @@ class AddIntegralsState extends State<AddIntegrals> {
 
     if (newFile != null) {
       var file = File(newFile);
-      var integralData = await File("integrals.txt").readAsString();
+      var integralData = await File("storage/integrals.txt").readAsString();
       List<String> splitIntegrals = integralData.split("\n");
       splitIntegrals.removeLast();
       String newFileData = r"""
@@ -207,7 +207,7 @@ class AddIntegralsState extends State<AddIntegrals> {
 
     if (newFile != null) {
       var file = File(newFile);
-      var integralData = await File("integrals.txt").readAsString();
+      var integralData = await File("storage/integrals.txt").readAsString();
       List<String> splitIntegrals = integralData.split("\n");
       splitIntegrals.removeLast();
       //

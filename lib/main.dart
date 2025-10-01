@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void loadFromPrevious() async {
-    String compData = await File("compData.json").readAsString();
+    String compData = await File("storage/compData.json").readAsString();
     if (compData == "") return;
     Map<String, dynamic> jsonContent = json.decode(compData);
     Map<Map<String, dynamic>, Player> jsonToPlayer = {};
@@ -152,17 +152,17 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       await loadSettings();
     }
-    var integrals = File("integrals.txt");
+    var integrals = File("storage/integrals.txt");
     bool integralsExists = await integrals.exists();
     if (!integralsExists) {
       await integrals.writeAsString("");
     }
-    var players = File("player.txt");
+    var players = File("storage/player.txt");
     bool playersExists = await players.exists();
     if (!playersExists) {
       await players.writeAsString("");
     }
-    var compData = File("compData.json");
+    var compData = File("storage/compData.json");
     bool compDataExists = await compData.exists();
     if (!compDataExists) {
       await compData.writeAsString(json.encode({}));

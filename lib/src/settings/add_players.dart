@@ -11,7 +11,7 @@ class AddPlayer extends StatefulWidget {
 }
 
 class AddPlayerState extends State<AddPlayer> {
-  static const String fileName = "player.txt";
+  static const String fileName = "storage/player.txt";
   TextStyle inputStyle = const TextStyle(fontSize: 25);
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController schoolController = TextEditingController();
@@ -92,7 +92,7 @@ class AddPlayerState extends State<AddPlayer> {
   }
 
   Future<int> generatePlayerList() async {
-    var file = File("player.txt");
+    var file = File("storage/player.txt");
     String rawData = await file.readAsString();
     List<String> playerData = rawData.split("\n");
     playerData.removeLast();
@@ -151,7 +151,7 @@ class AddPlayerState extends State<AddPlayer> {
   }
 
   void removePlayer(int idx, String player) async {
-    var file = File("player.txt");
+    var file = File("storage/player.txt");
     String rawData = await file.readAsString();
     List<String> playerData = rawData.split("\n");
     playerData.remove(player);

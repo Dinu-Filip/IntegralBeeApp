@@ -23,8 +23,8 @@ enum Years {
   const Years(this.year);
 }
 
-const String playerFile = "player.txt";
-const String integralFile = "integrals.txt";
+const String playerFile = "storage/player.txt";
+const String integralFile = "storage/integrals.txt";
 
 Map<String, int> timePerRound = {
   "other": 120,
